@@ -1,0 +1,99 @@
+// option java_package = "ds.hdfs";
+// option java_outer_classname = "SOMETHING";
+
+package proto;
+
+option java_outer_classname = "ProtosHDFS";
+
+// Each block contains information such as:
+// 1. The name of the file the block is associated with
+// 2. The 'order' of the block in the file (1st block, 2nd block, 3rd block, etc)
+// 3. The contents of the block
+// 4. The size of the block in bytes
+
+message Block {
+    required string fileName = 1;
+    required int32 blockNumber = 2;
+    required string blockContents = 3;
+    required int32 blockSize = 4;
+}
+
+// The data node information object holds the following:
+// 1. The ID of the data node in string form (UUID)
+// 2. The IP Address of the data node
+// 3. The Port Number of the data node
+// 4. The Blocks stored on the data node
+
+message DataNodeInfo {
+    required string dataNodeId = 1;
+    required string ipAddress = 2;
+    required int32 portNumber = 3;
+    repeated Block blocks = 4;
+}
+
+// The INode represents a file and contains:
+// 1. The name of the file
+// 2. The size of the file
+// 3. The parent directory of the file
+// 4. The blocks the file is partitioned into
+
+message INode {
+    required string fileName = 1;
+    required int32 fileSize = 2;
+    required string parentDirectory = 3;
+    repeated Block partitions = 4;
+}
+
+// Request made by client to either name node or data node
+// Request types 0-2 are for metadata operations meant for the name node
+// Request types 3-6 are for non-metadata operations meant for the data node
+
+// To perform any requests from 3-6, first use OPEN request to get remote file handle
+// Using this remote handle to do CRUD operations
+// Once CRUD operations are done, close file handle
+
+message Request {
+    required string requestId = 1;
+    enum RequestType {
+        OPEN = 0;
+        CLOSE = 1;
+        LIST = 2;
+        READ = 3;
+        WRITE = 4;
+        UPDATE = 5;
+        DELETE = 6;
+    }
+    required RequestType requestType = 2;
+    optional Block block = 3;
+}
+
+// Each Response contains a Response ID
+// Responses are generated after some operation is completed or has failed
+// If there is no error, error message should say something along the lines of
+// 'Task has been completed successfully' or 'No errors' etc.
+// For CRUD operations, dataNodeInfo contains information on the data nodes
+// such as ip address, socket that the client should write to
+
+message Response {
+    required string responseId = 1;
+    enum ResponseType {
+        SUCCESS = 0;
+        FAILURE = 1;
+    }
+    required ResponseType responseType = 2;
+    optional string errorMessage = 3;
+    optional Block block = 4;
+    repeated DataNodeInfo dataNodeInfo = 5;
+}
+
+// Heartbeat is a message sent from the data node to the adfads
+// The heartbeat contains the data node identifier and the list of all blocks
+// the data node is storing
+
+message Heartbeat{
+    required string heartbeatId = 1;
+    required int64 timestamp = 2;
+    required DataNodeInfo dataNodeInfo = 3;
+}
+
+
