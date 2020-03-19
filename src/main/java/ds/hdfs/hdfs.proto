@@ -5,17 +5,23 @@ package proto;
 
 option java_outer_classname = "ProtosHDFS";
 
-// Each block contains information such as:
+// Each BlockMetaData contains information such as:
 // 1. The name of the file the block is associated with
 // 2. The 'order' of the block in the file (1st block, 2nd block, 3rd block, etc)
 // 3. The contents of the block
 // 4. The size of the block in bytes
+message BlockMetaData {
+    required string fileId = 1;
+    required string fileName = 2;
+    required int32 blockNumber = 3;
+    required bool isPrimary = 4;
+}
+
+// Each block contains the metadata of the block as well as its contents
 
 message Block {
-    required string fileName = 1;
-    required int32 blockNumber = 2;
-    required string blockContents = 3;
-    required int32 blockSize = 4;
+    required BlockMetaData blockMeta = 1;
+    required string blockContents = 2;
 }
 
 // The data node information object holds the following:
@@ -28,20 +34,21 @@ message DataNodeInfo {
     required string dataNodeId = 1;
     required string ipAddress = 2;
     required int32 portNumber = 3;
-    repeated Block blocks = 4;
+    repeated BlockMetaData blockMetas = 4;
 }
 
-// The INode represents a file and contains:
+// The FileMetadata represents basic file informations and contains:
 // 1. The name of the file
 // 2. The size of the file
 // 3. The parent directory of the file
 // 4. The blocks the file is partitioned into
 
-message INode {
-    required string fileName = 1;
-    required int32 fileSize = 2;
-    required string parentDirectory = 3;
-    repeated Block partitions = 4;
+message FileMetadata {
+    required string fileId = 1;
+    required string fileName = 2;
+    required int32 fileSize = 3;
+    required string parentDirectory = 4;
+    repeated Block partitions = 5;
 }
 
 // Request made by client to either name node or data node

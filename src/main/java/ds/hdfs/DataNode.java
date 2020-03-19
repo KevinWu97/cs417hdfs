@@ -1,19 +1,17 @@
 package ds.hdfs;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import proto.ProtosHDFS;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.UUID;
 
 public class DataNode implements DataNodeInterface {
 
@@ -21,7 +19,7 @@ public class DataNode implements DataNodeInterface {
     protected String ipAddress;
     protected int portNumber;
     protected Hashtable<Integer, String> requests;
-    protected Hashtable<Integer, ProtosHDFS.Block> blocks;
+    protected Hashtable<String, ProtosHDFS.BlockMetaData> blockMetas;
 
     protected DataNode() {
         // Empty constructor, nothing to see here :)
@@ -33,35 +31,60 @@ public class DataNode implements DataNodeInterface {
         dataInfoBuilder.setDataNodeId(this.dataNodeId);
         dataInfoBuilder.setIpAddress(this.ipAddress);
         dataInfoBuilder.setPortNumber(this.portNumber);
-        ArrayList<ProtosHDFS.Block> blocksList = new ArrayList<>(this.blocks.values());
-        dataInfoBuilder.addAllBlocks(blocksList);
+        ArrayList<ProtosHDFS.BlockMetaData> blocksList = new ArrayList<>(this.blockMetas.values());
+        dataInfoBuilder.addAllBlockMetas(blocksList);
         ProtosHDFS.DataNodeInfo dataNodeInfo = dataInfoBuilder.build();
         dataInfoBuilder.clear();
         return dataNodeInfo;
     }
 
-    public byte[] readBlock(byte[] input) throws RemoteException, InvalidProtocolBufferException {
+    public byte[] readBlock(byte[] input) throws IOException {
         // This parses the input as a Request object defined in the protobuf
         ProtosHDFS.Request request = ProtosHDFS.Request.parseFrom(input);
         String requestId = request.getRequestId();
+        Integer requestKey = requestId.hashCode();
+
         ProtosHDFS.Response response;
         ProtosHDFS.Response.Builder responseBuilder = ProtosHDFS.Response.newBuilder();
 
-        // This part gets the block from the Request object and tries to search it in the blocks hashtable
-        ProtosHDFS.Block requestBlock = request.getBlock();
-        String blockName = requestBlock.getFileName() + "_" + requestBlock.getBlockNumber();
-        Integer blockKey = blockName.hashCode();
+        ProtosHDFS.Block block = request.getBlock();
+        ProtosHDFS.BlockMetaData blockMeta = block.getBlockMeta();
+        String fileId = blockMeta.getFileId();
+        String fileName = blockMeta.getFileName();
+        int blockNumber = blockMeta.getBlockNumber();
+        String blockKey = fileId + "_" + blockNumber;
 
-        if(this.blocks.containsKey(blockKey)){
-            ProtosHDFS.Block block = this.blocks.get(blockKey);
-            String errorMessage = block.getFileName() + " block " + block.getBlockNumber() + " successfully read";
-            responseBuilder.setResponseId(requestId);
-            responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.SUCCESS);
-            responseBuilder.setErrorMessage(errorMessage);
-            responseBuilder.setBlock(block);
+        // This searches for the block in the hashtable using fileId and blockNumber as the key
+        // If it exists in the table, that means the file block could be read
+        // If not, the file block is not present in the data node and should throw an error in response
+        if(this.blockMetas.containsKey(blockKey)){
+            File file = new File(blockKey);
+            byte[] fileContents = new byte[(int)file.length()];
+            FileInputStream fileInputStream = new FileInputStream(file);
+            int reachedEnd = fileInputStream.read(fileContents);
+
+            if(reachedEnd != -1){
+                String errorMessage = fileName + " block " + blockNumber + " read partial";
+                responseBuilder.setResponseId(requestId);
+                responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.FAILURE);
+                responseBuilder.setErrorMessage(errorMessage);
+            }else{
+                String errorMessage = fileName + " block " + blockNumber + " read successful";
+
+                // Read is successful, construct block that will be packaged in a response and sent back to client
+                ProtosHDFS.Block.Builder blockBuilder = ProtosHDFS.Block.newBuilder();
+                blockBuilder.setBlockMeta(this.blockMetas.get(blockKey));
+                blockBuilder.setBlockContents(Arrays.toString(fileContents));
+                ProtosHDFS.Block responseBlock = blockBuilder.build();
+                blockBuilder.clear();
+
+                responseBuilder.setResponseId(requestId);
+                responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.SUCCESS);
+                responseBuilder.setErrorMessage(errorMessage);
+                responseBuilder.setBlock(responseBlock);
+            }
         }else{
-            String errorMessage = requestBlock.getFileName() + " block " +
-                    requestBlock.getBlockNumber() + " read failed";
+            String errorMessage = fileName + " block " + blockNumber + " read fail (block not found)";
             responseBuilder.setResponseId(requestId);
             responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.FAILURE);
             responseBuilder.setErrorMessage(errorMessage);
@@ -69,6 +92,7 @@ public class DataNode implements DataNodeInterface {
 
         response = responseBuilder.buildPartial();
         responseBuilder.clear();
+        this.requests.put(requestKey, requestId);
         return response.toByteArray();
     }
 
@@ -78,38 +102,40 @@ public class DataNode implements DataNodeInterface {
         // This parses the input as a Request object defined in the protobuf
         ProtosHDFS.Request request = ProtosHDFS.Request.parseFrom(input);
         String requestId = request.getRequestId();
+        Integer requestKey = requestId.hashCode();
+
         ProtosHDFS.Response response;
         ProtosHDFS.Response.Builder responseBuilder = ProtosHDFS.Response.newBuilder();
 
-        // This part gets the block from the Request object and creates a file handle for the file
-        // the block will be written to as well as initializes a FileOutputStream
+        // This part parses the metadata of the block from the request and the contents
+        // and initializes a FileOutputStream to write block contents to that fos
         ProtosHDFS.Block block = request.getBlock();
-        String blockName = block.getFileName() + "_" + block.getBlockNumber();
+        ProtosHDFS.BlockMetaData blockMeta = block.getBlockMeta();
+        String fileId = blockMeta.getFileId();
+        int blockNumber = blockMeta.getBlockNumber();
+
+        String blockName = fileId + "_" + blockNumber;
+        String fileName = blockMeta.getFileName();
         File file = new File(blockName);
         FileOutputStream fileOutputStream;
 
-        // If the file exists awesome, if it doesn't create the file and write contents of block to it
-        // Method file.createNewFile() returns true if file doesn't exist but a new one has been created
-        // Response object is generated depending on whether the block write was successful or not
-        // Response object is then returned as a byte array
         if(file.exists() || file.createNewFile()){
             fileOutputStream = new FileOutputStream(file);
-            String contents = block.getBlockContents();
-            fileOutputStream.write(contents.getBytes());
+            String blockContents = block.getBlockContents();
+            fileOutputStream.write(blockContents.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
 
-            // This adds the block that was written to the data node to the blocks hash table
-            // in the event that the block has been successfully written to the data node
-            Integer blockKey = blockName.hashCode();
-            this.blocks.put(blockKey, block);
+            // Puts the metadata of block in hash table with blockName as key and
+            // and block metadata as value
+            this.blockMetas.put(blockName, blockMeta);
 
-            String errorMessage = block.getFileName() + " block " + block.getBlockNumber() + " successfully written";
+            String errorMessage = fileName + " block " + blockNumber + " write successful";
             responseBuilder.setResponseId(requestId);
             responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.SUCCESS);
             responseBuilder.setErrorMessage(errorMessage);
         }else{
-            String errorMessage = block.getFileName() + " block " + block.getBlockNumber() + " write failed";
+            String errorMessage = fileName + " block " + blockNumber + " write failed";
             responseBuilder.setResponseId(requestId);
             responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.FAILURE);
             responseBuilder.setErrorMessage(errorMessage);
@@ -117,33 +143,8 @@ public class DataNode implements DataNodeInterface {
 
         response = responseBuilder.buildPartial();
         responseBuilder.clear();
+        this.requests.put(requestKey, requestId);
         return response.toByteArray();
-    }
-
-    // This method takes in incoming requests to the Data Node and redirects them to the appropriate method
-    // Don't worry about update and delete for now
-    public byte[] directRequest(byte[] input) throws IOException {
-        ProtosHDFS.Request request = ProtosHDFS.Request.parseFrom(input);
-        String requestID = request.getRequestId();
-        Integer requestKey = requestID.hashCode();
-
-        // If the hash table of requests doesn't contain the request key, then write the block to the data node
-        // Then put the requestID into the HashTable
-        if(!this.requests.containsKey(requestKey)){
-            int requestType = request.getRequestType().getNumber();
-            switch(requestType){
-                case 0: System.out.println("Open Request on Data Node?"); break;
-                case 1: System.out.println("Close request on a Data Node?"); break;
-                case 2: System.out.println("List request on a Data Node?"); break;
-                case 3: readBlock(input); break;
-                case 4: writeBlock(input); break;
-                // Add update if time allows
-                // Add delete if time allows
-                default: System.out.println("Un-oh! Invalid request type");
-            }
-            this.requests.put(requestKey, requestID);
-        }
-        return new byte[0];
     }
 
     // This method binds the Data Node to the server so the client can access it and use its services (methods)
