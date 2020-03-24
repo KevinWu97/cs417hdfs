@@ -19,68 +19,134 @@ public final class ProtosHDFS {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string fileId = 1;</code>
+     * <code>required string blockId = 1;</code>
+     * @return Whether the blockId field is set.
+     */
+    boolean hasBlockId();
+    /**
+     * <code>required string blockId = 1;</code>
+     * @return The blockId.
+     */
+    java.lang.String getBlockId();
+    /**
+     * <code>required string blockId = 1;</code>
+     * @return The bytes for blockId.
+     */
+    com.google.protobuf.ByteString
+        getBlockIdBytes();
+
+    /**
+     * <code>required string fileId = 2;</code>
      * @return Whether the fileId field is set.
      */
     boolean hasFileId();
     /**
-     * <code>required string fileId = 1;</code>
+     * <code>required string fileId = 2;</code>
      * @return The fileId.
      */
     java.lang.String getFileId();
     /**
-     * <code>required string fileId = 1;</code>
+     * <code>required string fileId = 2;</code>
      * @return The bytes for fileId.
      */
     com.google.protobuf.ByteString
         getFileIdBytes();
 
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return Whether the fileName field is set.
      */
     boolean hasFileName();
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return The fileName.
      */
     java.lang.String getFileName();
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return The bytes for fileName.
      */
     com.google.protobuf.ByteString
         getFileNameBytes();
 
     /**
-     * <code>required int32 blockNumber = 3;</code>
+     * <code>required int32 blockNumber = 4;</code>
      * @return Whether the blockNumber field is set.
      */
     boolean hasBlockNumber();
     /**
-     * <code>required int32 blockNumber = 3;</code>
+     * <code>required int32 blockNumber = 4;</code>
      * @return The blockNumber.
      */
     int getBlockNumber();
 
     /**
-     * <code>required bool isPrimary = 4;</code>
-     * @return Whether the isPrimary field is set.
+     * <code>required int32 ordReplication = 5;</code>
+     * @return Whether the ordReplication field is set.
      */
-    boolean hasIsPrimary();
+    boolean hasOrdReplication();
     /**
-     * <code>required bool isPrimary = 4;</code>
-     * @return The isPrimary.
+     * <code>required int32 ordReplication = 5;</code>
+     * @return The ordReplication.
      */
-    boolean getIsPrimary();
+    int getOrdReplication();
+
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return Whether the dataNodeId field is set.
+     */
+    boolean hasDataNodeId();
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return The dataNodeId.
+     */
+    java.lang.String getDataNodeId();
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return The bytes for dataNodeId.
+     */
+    com.google.protobuf.ByteString
+        getDataNodeIdBytes();
+
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return Whether the ipAddress field is set.
+     */
+    boolean hasIpAddress();
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return The ipAddress.
+     */
+    java.lang.String getIpAddress();
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return The bytes for ipAddress.
+     */
+    com.google.protobuf.ByteString
+        getIpAddressBytes();
+
+    /**
+     * <code>required int32 portNumber = 8;</code>
+     * @return Whether the portNumber field is set.
+     */
+    boolean hasPortNumber();
+    /**
+     * <code>required int32 portNumber = 8;</code>
+     * @return The portNumber.
+     */
+    int getPortNumber();
   }
   /**
    * <pre>
    * Each BlockMetaData contains information such as:
-   * 1. The name of the file the block is associated with
-   * 2. The 'order' of the block in the file (1st block, 2nd block, 3rd block, etc)
-   * 3. The contents of the block
-   * 4. The size of the block in bytes
+   * 1. The Block ID
+   * 2. The File ID
+   * 3. Name of File
+   * 4. Which block of the file it is
+   * 5. Which repetition it is
+   * 6. Which Data Node this block is in
+   * 7. The IP address of said Data Node
+   * 8. Port Number of said DataNode
    * </pre>
    *
    * Protobuf type {@code proto.BlockMetaData}
@@ -95,8 +161,11 @@ public final class ProtosHDFS {
       super(builder);
     }
     private BlockMetaData() {
+      blockId_ = "";
       fileId_ = "";
       fileName_ = "";
+      dataNodeId_ = "";
+      ipAddress_ = "";
     }
 
     @java.lang.Override
@@ -133,23 +202,46 @@ public final class ProtosHDFS {
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              fileId_ = bs;
+              blockId_ = bs;
               break;
             }
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              fileName_ = bs;
+              fileId_ = bs;
               break;
             }
-            case 24: {
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              blockNumber_ = input.readInt32();
+              fileName_ = bs;
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              isPrimary_ = input.readBool();
+              blockNumber_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              ordReplication_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              dataNodeId_ = bs;
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              ipAddress_ = bs;
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              portNumber_ = input.readInt32();
               break;
             }
             default: {
@@ -185,17 +277,62 @@ public final class ProtosHDFS {
     }
 
     private int bitField0_;
-    public static final int FILEID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object fileId_;
+    public static final int BLOCKID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object blockId_;
     /**
-     * <code>required string fileId = 1;</code>
-     * @return Whether the fileId field is set.
+     * <code>required string blockId = 1;</code>
+     * @return Whether the blockId field is set.
      */
-    public boolean hasFileId() {
+    public boolean hasBlockId() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required string fileId = 1;</code>
+     * <code>required string blockId = 1;</code>
+     * @return The blockId.
+     */
+    public java.lang.String getBlockId() {
+      java.lang.Object ref = blockId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          blockId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string blockId = 1;</code>
+     * @return The bytes for blockId.
+     */
+    public com.google.protobuf.ByteString
+        getBlockIdBytes() {
+      java.lang.Object ref = blockId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        blockId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FILEID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object fileId_;
+    /**
+     * <code>required string fileId = 2;</code>
+     * @return Whether the fileId field is set.
+     */
+    public boolean hasFileId() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required string fileId = 2;</code>
      * @return The fileId.
      */
     public java.lang.String getFileId() {
@@ -213,7 +350,7 @@ public final class ProtosHDFS {
       }
     }
     /**
-     * <code>required string fileId = 1;</code>
+     * <code>required string fileId = 2;</code>
      * @return The bytes for fileId.
      */
     public com.google.protobuf.ByteString
@@ -230,17 +367,17 @@ public final class ProtosHDFS {
       }
     }
 
-    public static final int FILENAME_FIELD_NUMBER = 2;
+    public static final int FILENAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object fileName_;
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return Whether the fileName field is set.
      */
     public boolean hasFileName() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return The fileName.
      */
     public java.lang.String getFileName() {
@@ -258,7 +395,7 @@ public final class ProtosHDFS {
       }
     }
     /**
-     * <code>required string fileName = 2;</code>
+     * <code>required string fileName = 3;</code>
      * @return The bytes for fileName.
      */
     public com.google.protobuf.ByteString
@@ -275,38 +412,145 @@ public final class ProtosHDFS {
       }
     }
 
-    public static final int BLOCKNUMBER_FIELD_NUMBER = 3;
+    public static final int BLOCKNUMBER_FIELD_NUMBER = 4;
     private int blockNumber_;
     /**
-     * <code>required int32 blockNumber = 3;</code>
+     * <code>required int32 blockNumber = 4;</code>
      * @return Whether the blockNumber field is set.
      */
     public boolean hasBlockNumber() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>required int32 blockNumber = 3;</code>
+     * <code>required int32 blockNumber = 4;</code>
      * @return The blockNumber.
      */
     public int getBlockNumber() {
       return blockNumber_;
     }
 
-    public static final int ISPRIMARY_FIELD_NUMBER = 4;
-    private boolean isPrimary_;
+    public static final int ORDREPLICATION_FIELD_NUMBER = 5;
+    private int ordReplication_;
     /**
-     * <code>required bool isPrimary = 4;</code>
-     * @return Whether the isPrimary field is set.
+     * <code>required int32 ordReplication = 5;</code>
+     * @return Whether the ordReplication field is set.
      */
-    public boolean hasIsPrimary() {
-      return ((bitField0_ & 0x00000008) != 0);
+    public boolean hasOrdReplication() {
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
-     * <code>required bool isPrimary = 4;</code>
-     * @return The isPrimary.
+     * <code>required int32 ordReplication = 5;</code>
+     * @return The ordReplication.
      */
-    public boolean getIsPrimary() {
-      return isPrimary_;
+    public int getOrdReplication() {
+      return ordReplication_;
+    }
+
+    public static final int DATANODEID_FIELD_NUMBER = 6;
+    private volatile java.lang.Object dataNodeId_;
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return Whether the dataNodeId field is set.
+     */
+    public boolean hasDataNodeId() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return The dataNodeId.
+     */
+    public java.lang.String getDataNodeId() {
+      java.lang.Object ref = dataNodeId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          dataNodeId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string dataNodeId = 6;</code>
+     * @return The bytes for dataNodeId.
+     */
+    public com.google.protobuf.ByteString
+        getDataNodeIdBytes() {
+      java.lang.Object ref = dataNodeId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dataNodeId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IPADDRESS_FIELD_NUMBER = 7;
+    private volatile java.lang.Object ipAddress_;
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return Whether the ipAddress field is set.
+     */
+    public boolean hasIpAddress() {
+      return ((bitField0_ & 0x00000040) != 0);
+    }
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return The ipAddress.
+     */
+    public java.lang.String getIpAddress() {
+      java.lang.Object ref = ipAddress_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ipAddress_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string ipAddress = 7;</code>
+     * @return The bytes for ipAddress.
+     */
+    public com.google.protobuf.ByteString
+        getIpAddressBytes() {
+      java.lang.Object ref = ipAddress_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ipAddress_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORTNUMBER_FIELD_NUMBER = 8;
+    private int portNumber_;
+    /**
+     * <code>required int32 portNumber = 8;</code>
+     * @return Whether the portNumber field is set.
+     */
+    public boolean hasPortNumber() {
+      return ((bitField0_ & 0x00000080) != 0);
+    }
+    /**
+     * <code>required int32 portNumber = 8;</code>
+     * @return The portNumber.
+     */
+    public int getPortNumber() {
+      return portNumber_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -316,6 +560,10 @@ public final class ProtosHDFS {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasBlockId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasFileId()) {
         memoizedIsInitialized = 0;
         return false;
@@ -328,7 +576,19 @@ public final class ProtosHDFS {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsPrimary()) {
+      if (!hasOrdReplication()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDataNodeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIpAddress()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPortNumber()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -340,16 +600,28 @@ public final class ProtosHDFS {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileId_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, blockId_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, fileName_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, fileId_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeInt32(3, blockNumber_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, fileName_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeBool(4, isPrimary_);
+        output.writeInt32(4, blockNumber_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeInt32(5, ordReplication_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, dataNodeId_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, ipAddress_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        output.writeInt32(8, portNumber_);
       }
       unknownFields.writeTo(output);
     }
@@ -361,18 +633,31 @@ public final class ProtosHDFS {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileId_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, blockId_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, fileName_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, fileId_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, blockNumber_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, fileName_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, isPrimary_);
+          .computeInt32Size(4, blockNumber_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, ordReplication_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, dataNodeId_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, ipAddress_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, portNumber_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -389,6 +674,11 @@ public final class ProtosHDFS {
       }
       proto.ProtosHDFS.BlockMetaData other = (proto.ProtosHDFS.BlockMetaData) obj;
 
+      if (hasBlockId() != other.hasBlockId()) return false;
+      if (hasBlockId()) {
+        if (!getBlockId()
+            .equals(other.getBlockId())) return false;
+      }
       if (hasFileId() != other.hasFileId()) return false;
       if (hasFileId()) {
         if (!getFileId()
@@ -404,10 +694,25 @@ public final class ProtosHDFS {
         if (getBlockNumber()
             != other.getBlockNumber()) return false;
       }
-      if (hasIsPrimary() != other.hasIsPrimary()) return false;
-      if (hasIsPrimary()) {
-        if (getIsPrimary()
-            != other.getIsPrimary()) return false;
+      if (hasOrdReplication() != other.hasOrdReplication()) return false;
+      if (hasOrdReplication()) {
+        if (getOrdReplication()
+            != other.getOrdReplication()) return false;
+      }
+      if (hasDataNodeId() != other.hasDataNodeId()) return false;
+      if (hasDataNodeId()) {
+        if (!getDataNodeId()
+            .equals(other.getDataNodeId())) return false;
+      }
+      if (hasIpAddress() != other.hasIpAddress()) return false;
+      if (hasIpAddress()) {
+        if (!getIpAddress()
+            .equals(other.getIpAddress())) return false;
+      }
+      if (hasPortNumber() != other.hasPortNumber()) return false;
+      if (hasPortNumber()) {
+        if (getPortNumber()
+            != other.getPortNumber()) return false;
       }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
@@ -420,6 +725,10 @@ public final class ProtosHDFS {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasBlockId()) {
+        hash = (37 * hash) + BLOCKID_FIELD_NUMBER;
+        hash = (53 * hash) + getBlockId().hashCode();
+      }
       if (hasFileId()) {
         hash = (37 * hash) + FILEID_FIELD_NUMBER;
         hash = (53 * hash) + getFileId().hashCode();
@@ -432,10 +741,21 @@ public final class ProtosHDFS {
         hash = (37 * hash) + BLOCKNUMBER_FIELD_NUMBER;
         hash = (53 * hash) + getBlockNumber();
       }
-      if (hasIsPrimary()) {
-        hash = (37 * hash) + ISPRIMARY_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getIsPrimary());
+      if (hasOrdReplication()) {
+        hash = (37 * hash) + ORDREPLICATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOrdReplication();
+      }
+      if (hasDataNodeId()) {
+        hash = (37 * hash) + DATANODEID_FIELD_NUMBER;
+        hash = (53 * hash) + getDataNodeId().hashCode();
+      }
+      if (hasIpAddress()) {
+        hash = (37 * hash) + IPADDRESS_FIELD_NUMBER;
+        hash = (53 * hash) + getIpAddress().hashCode();
+      }
+      if (hasPortNumber()) {
+        hash = (37 * hash) + PORTNUMBER_FIELD_NUMBER;
+        hash = (53 * hash) + getPortNumber();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -535,10 +855,14 @@ public final class ProtosHDFS {
     /**
      * <pre>
      * Each BlockMetaData contains information such as:
-     * 1. The name of the file the block is associated with
-     * 2. The 'order' of the block in the file (1st block, 2nd block, 3rd block, etc)
-     * 3. The contents of the block
-     * 4. The size of the block in bytes
+     * 1. The Block ID
+     * 2. The File ID
+     * 3. Name of File
+     * 4. Which block of the file it is
+     * 5. Which repetition it is
+     * 6. Which Data Node this block is in
+     * 7. The IP address of said Data Node
+     * 8. Port Number of said DataNode
      * </pre>
      *
      * Protobuf type {@code proto.BlockMetaData}
@@ -578,14 +902,22 @@ public final class ProtosHDFS {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        fileId_ = "";
+        blockId_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        fileName_ = "";
+        fileId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        blockNumber_ = 0;
+        fileName_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        isPrimary_ = false;
+        blockNumber_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        ordReplication_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        dataNodeId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        ipAddress_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        portNumber_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -617,18 +949,34 @@ public final class ProtosHDFS {
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.fileId_ = fileId_;
+        result.blockId_ = blockId_;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.fileName_ = fileName_;
+        result.fileId_ = fileId_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.blockNumber_ = blockNumber_;
           to_bitField0_ |= 0x00000004;
         }
+        result.fileName_ = fileName_;
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.isPrimary_ = isPrimary_;
+          result.blockNumber_ = blockNumber_;
           to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.ordReplication_ = ordReplication_;
+          to_bitField0_ |= 0x00000010;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.dataNodeId_ = dataNodeId_;
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.ipAddress_ = ipAddress_;
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.portNumber_ = portNumber_;
+          to_bitField0_ |= 0x00000080;
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -679,21 +1027,39 @@ public final class ProtosHDFS {
 
       public Builder mergeFrom(proto.ProtosHDFS.BlockMetaData other) {
         if (other == proto.ProtosHDFS.BlockMetaData.getDefaultInstance()) return this;
-        if (other.hasFileId()) {
+        if (other.hasBlockId()) {
           bitField0_ |= 0x00000001;
+          blockId_ = other.blockId_;
+          onChanged();
+        }
+        if (other.hasFileId()) {
+          bitField0_ |= 0x00000002;
           fileId_ = other.fileId_;
           onChanged();
         }
         if (other.hasFileName()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           fileName_ = other.fileName_;
           onChanged();
         }
         if (other.hasBlockNumber()) {
           setBlockNumber(other.getBlockNumber());
         }
-        if (other.hasIsPrimary()) {
-          setIsPrimary(other.getIsPrimary());
+        if (other.hasOrdReplication()) {
+          setOrdReplication(other.getOrdReplication());
+        }
+        if (other.hasDataNodeId()) {
+          bitField0_ |= 0x00000020;
+          dataNodeId_ = other.dataNodeId_;
+          onChanged();
+        }
+        if (other.hasIpAddress()) {
+          bitField0_ |= 0x00000040;
+          ipAddress_ = other.ipAddress_;
+          onChanged();
+        }
+        if (other.hasPortNumber()) {
+          setPortNumber(other.getPortNumber());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -702,6 +1068,9 @@ public final class ProtosHDFS {
 
       @java.lang.Override
       public final boolean isInitialized() {
+        if (!hasBlockId()) {
+          return false;
+        }
         if (!hasFileId()) {
           return false;
         }
@@ -711,7 +1080,16 @@ public final class ProtosHDFS {
         if (!hasBlockNumber()) {
           return false;
         }
-        if (!hasIsPrimary()) {
+        if (!hasOrdReplication()) {
+          return false;
+        }
+        if (!hasDataNodeId()) {
+          return false;
+        }
+        if (!hasIpAddress()) {
+          return false;
+        }
+        if (!hasPortNumber()) {
           return false;
         }
         return true;
@@ -737,16 +1115,100 @@ public final class ProtosHDFS {
       }
       private int bitField0_;
 
-      private java.lang.Object fileId_ = "";
+      private java.lang.Object blockId_ = "";
       /**
-       * <code>required string fileId = 1;</code>
-       * @return Whether the fileId field is set.
+       * <code>required string blockId = 1;</code>
+       * @return Whether the blockId field is set.
        */
-      public boolean hasFileId() {
+      public boolean hasBlockId() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required string fileId = 1;</code>
+       * <code>required string blockId = 1;</code>
+       * @return The blockId.
+       */
+      public java.lang.String getBlockId() {
+        java.lang.Object ref = blockId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            blockId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string blockId = 1;</code>
+       * @return The bytes for blockId.
+       */
+      public com.google.protobuf.ByteString
+          getBlockIdBytes() {
+        java.lang.Object ref = blockId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          blockId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string blockId = 1;</code>
+       * @param value The blockId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBlockId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        blockId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string blockId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBlockId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        blockId_ = getDefaultInstance().getBlockId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string blockId = 1;</code>
+       * @param value The bytes for blockId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBlockIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        blockId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object fileId_ = "";
+      /**
+       * <code>required string fileId = 2;</code>
+       * @return Whether the fileId field is set.
+       */
+      public boolean hasFileId() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required string fileId = 2;</code>
        * @return The fileId.
        */
       public java.lang.String getFileId() {
@@ -764,7 +1226,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>required string fileId = 1;</code>
+       * <code>required string fileId = 2;</code>
        * @return The bytes for fileId.
        */
       public com.google.protobuf.ByteString
@@ -781,7 +1243,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>required string fileId = 1;</code>
+       * <code>required string fileId = 2;</code>
        * @param value The fileId to set.
        * @return This builder for chaining.
        */
@@ -790,23 +1252,23 @@ public final class ProtosHDFS {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         fileId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileId = 1;</code>
+       * <code>required string fileId = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearFileId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         fileId_ = getDefaultInstance().getFileId();
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileId = 1;</code>
+       * <code>required string fileId = 2;</code>
        * @param value The bytes for fileId to set.
        * @return This builder for chaining.
        */
@@ -815,7 +1277,7 @@ public final class ProtosHDFS {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         fileId_ = value;
         onChanged();
         return this;
@@ -823,14 +1285,14 @@ public final class ProtosHDFS {
 
       private java.lang.Object fileName_ = "";
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @return Whether the fileName field is set.
        */
       public boolean hasFileName() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @return The fileName.
        */
       public java.lang.String getFileName() {
@@ -848,7 +1310,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @return The bytes for fileName.
        */
       public com.google.protobuf.ByteString
@@ -865,7 +1327,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @param value The fileName to set.
        * @return This builder for chaining.
        */
@@ -874,23 +1336,23 @@ public final class ProtosHDFS {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         fileName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearFileName() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         fileName_ = getDefaultInstance().getFileName();
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileName = 2;</code>
+       * <code>required string fileName = 3;</code>
        * @param value The bytes for fileName to set.
        * @return This builder for chaining.
        */
@@ -899,7 +1361,7 @@ public final class ProtosHDFS {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         fileName_ = value;
         onChanged();
         return this;
@@ -907,74 +1369,279 @@ public final class ProtosHDFS {
 
       private int blockNumber_ ;
       /**
-       * <code>required int32 blockNumber = 3;</code>
+       * <code>required int32 blockNumber = 4;</code>
        * @return Whether the blockNumber field is set.
        */
       public boolean hasBlockNumber() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>required int32 blockNumber = 3;</code>
+       * <code>required int32 blockNumber = 4;</code>
        * @return The blockNumber.
        */
       public int getBlockNumber() {
         return blockNumber_;
       }
       /**
-       * <code>required int32 blockNumber = 3;</code>
+       * <code>required int32 blockNumber = 4;</code>
        * @param value The blockNumber to set.
        * @return This builder for chaining.
        */
       public Builder setBlockNumber(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         blockNumber_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 blockNumber = 3;</code>
+       * <code>required int32 blockNumber = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearBlockNumber() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         blockNumber_ = 0;
         onChanged();
         return this;
       }
 
-      private boolean isPrimary_ ;
+      private int ordReplication_ ;
       /**
-       * <code>required bool isPrimary = 4;</code>
-       * @return Whether the isPrimary field is set.
+       * <code>required int32 ordReplication = 5;</code>
+       * @return Whether the ordReplication field is set.
        */
-      public boolean hasIsPrimary() {
-        return ((bitField0_ & 0x00000008) != 0);
+      public boolean hasOrdReplication() {
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
-       * <code>required bool isPrimary = 4;</code>
-       * @return The isPrimary.
+       * <code>required int32 ordReplication = 5;</code>
+       * @return The ordReplication.
        */
-      public boolean getIsPrimary() {
-        return isPrimary_;
+      public int getOrdReplication() {
+        return ordReplication_;
       }
       /**
-       * <code>required bool isPrimary = 4;</code>
-       * @param value The isPrimary to set.
+       * <code>required int32 ordReplication = 5;</code>
+       * @param value The ordReplication to set.
        * @return This builder for chaining.
        */
-      public Builder setIsPrimary(boolean value) {
-        bitField0_ |= 0x00000008;
-        isPrimary_ = value;
+      public Builder setOrdReplication(int value) {
+        bitField0_ |= 0x00000010;
+        ordReplication_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool isPrimary = 4;</code>
+       * <code>required int32 ordReplication = 5;</code>
        * @return This builder for chaining.
        */
-      public Builder clearIsPrimary() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        isPrimary_ = false;
+      public Builder clearOrdReplication() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        ordReplication_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object dataNodeId_ = "";
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @return Whether the dataNodeId field is set.
+       */
+      public boolean hasDataNodeId() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @return The dataNodeId.
+       */
+      public java.lang.String getDataNodeId() {
+        java.lang.Object ref = dataNodeId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            dataNodeId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @return The bytes for dataNodeId.
+       */
+      public com.google.protobuf.ByteString
+          getDataNodeIdBytes() {
+        java.lang.Object ref = dataNodeId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dataNodeId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @param value The dataNodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataNodeId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        dataNodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDataNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        dataNodeId_ = getDefaultInstance().getDataNodeId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string dataNodeId = 6;</code>
+       * @param value The bytes for dataNodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataNodeIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        dataNodeId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object ipAddress_ = "";
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @return Whether the ipAddress field is set.
+       */
+      public boolean hasIpAddress() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @return The ipAddress.
+       */
+      public java.lang.String getIpAddress() {
+        java.lang.Object ref = ipAddress_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            ipAddress_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @return The bytes for ipAddress.
+       */
+      public com.google.protobuf.ByteString
+          getIpAddressBytes() {
+        java.lang.Object ref = ipAddress_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ipAddress_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @param value The ipAddress to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpAddress(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        ipAddress_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIpAddress() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        ipAddress_ = getDefaultInstance().getIpAddress();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ipAddress = 7;</code>
+       * @param value The bytes for ipAddress to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpAddressBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        ipAddress_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int portNumber_ ;
+      /**
+       * <code>required int32 portNumber = 8;</code>
+       * @return Whether the portNumber field is set.
+       */
+      public boolean hasPortNumber() {
+        return ((bitField0_ & 0x00000080) != 0);
+      }
+      /**
+       * <code>required int32 portNumber = 8;</code>
+       * @return The portNumber.
+       */
+      public int getPortNumber() {
+        return portNumber_;
+      }
+      /**
+       * <code>required int32 portNumber = 8;</code>
+       * @param value The portNumber to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPortNumber(int value) {
+        bitField0_ |= 0x00000080;
+        portNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 portNumber = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPortNumber() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        portNumber_ = 0;
         onChanged();
         return this;
       }
@@ -1865,51 +2532,6 @@ public final class ProtosHDFS {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return Whether the dataNodeId field is set.
-     */
-    boolean hasDataNodeId();
-    /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return The dataNodeId.
-     */
-    java.lang.String getDataNodeId();
-    /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return The bytes for dataNodeId.
-     */
-    com.google.protobuf.ByteString
-        getDataNodeIdBytes();
-
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return Whether the ipAddress field is set.
-     */
-    boolean hasIpAddress();
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return The ipAddress.
-     */
-    java.lang.String getIpAddress();
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return The bytes for ipAddress.
-     */
-    com.google.protobuf.ByteString
-        getIpAddressBytes();
-
-    /**
-     * <code>required int32 portNumber = 3;</code>
-     * @return Whether the portNumber field is set.
-     */
-    boolean hasPortNumber();
-    /**
-     * <code>required int32 portNumber = 3;</code>
-     * @return The portNumber.
-     */
-    int getPortNumber();
-
-    /**
      * <code>repeated .proto.BlockMetaData blockMetas = 4;</code>
      */
     java.util.List<proto.ProtosHDFS.BlockMetaData> 
@@ -1934,6 +2556,10 @@ public final class ProtosHDFS {
         int index);
   }
   /**
+   * <pre>
+   * DataNodeInfo only contains list of BlockMetaData it holds
+   * </pre>
+   *
    * Protobuf type {@code proto.DataNodeInfo}
    */
   public  static final class DataNodeInfo extends
@@ -1946,8 +2572,6 @@ public final class ProtosHDFS {
       super(builder);
     }
     private DataNodeInfo() {
-      dataNodeId_ = "";
-      ipAddress_ = "";
       blockMetas_ = java.util.Collections.emptyList();
     }
 
@@ -1982,27 +2606,10 @@ public final class ProtosHDFS {
             case 0:
               done = true;
               break;
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
-              dataNodeId_ = bs;
-              break;
-            }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              ipAddress_ = bs;
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              portNumber_ = input.readInt32();
-              break;
-            }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 blockMetas_ = new java.util.ArrayList<proto.ProtosHDFS.BlockMetaData>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               blockMetas_.add(
                   input.readMessage(proto.ProtosHDFS.BlockMetaData.PARSER, extensionRegistry));
@@ -2023,7 +2630,7 @@ public final class ProtosHDFS {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           blockMetas_ = java.util.Collections.unmodifiableList(blockMetas_);
         }
         this.unknownFields = unknownFields.build();
@@ -2041,114 +2648,6 @@ public final class ProtosHDFS {
       return proto.ProtosHDFS.internal_static_proto_DataNodeInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.ProtosHDFS.DataNodeInfo.class, proto.ProtosHDFS.DataNodeInfo.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int DATANODEID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object dataNodeId_;
-    /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return Whether the dataNodeId field is set.
-     */
-    public boolean hasDataNodeId() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return The dataNodeId.
-     */
-    public java.lang.String getDataNodeId() {
-      java.lang.Object ref = dataNodeId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          dataNodeId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string dataNodeId = 1;</code>
-     * @return The bytes for dataNodeId.
-     */
-    public com.google.protobuf.ByteString
-        getDataNodeIdBytes() {
-      java.lang.Object ref = dataNodeId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        dataNodeId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int IPADDRESS_FIELD_NUMBER = 2;
-    private volatile java.lang.Object ipAddress_;
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return Whether the ipAddress field is set.
-     */
-    public boolean hasIpAddress() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return The ipAddress.
-     */
-    public java.lang.String getIpAddress() {
-      java.lang.Object ref = ipAddress_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          ipAddress_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string ipAddress = 2;</code>
-     * @return The bytes for ipAddress.
-     */
-    public com.google.protobuf.ByteString
-        getIpAddressBytes() {
-      java.lang.Object ref = ipAddress_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        ipAddress_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PORTNUMBER_FIELD_NUMBER = 3;
-    private int portNumber_;
-    /**
-     * <code>required int32 portNumber = 3;</code>
-     * @return Whether the portNumber field is set.
-     */
-    public boolean hasPortNumber() {
-      return ((bitField0_ & 0x00000004) != 0);
-    }
-    /**
-     * <code>required int32 portNumber = 3;</code>
-     * @return The portNumber.
-     */
-    public int getPortNumber() {
-      return portNumber_;
     }
 
     public static final int BLOCKMETAS_FIELD_NUMBER = 4;
@@ -2193,18 +2692,6 @@ public final class ProtosHDFS {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasDataNodeId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIpAddress()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasPortNumber()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       for (int i = 0; i < getBlockMetasCount(); i++) {
         if (!getBlockMetas(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -2218,15 +2705,6 @@ public final class ProtosHDFS {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, dataNodeId_);
-      }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ipAddress_);
-      }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeInt32(3, portNumber_);
-      }
       for (int i = 0; i < blockMetas_.size(); i++) {
         output.writeMessage(4, blockMetas_.get(i));
       }
@@ -2239,16 +2717,6 @@ public final class ProtosHDFS {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, dataNodeId_);
-      }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ipAddress_);
-      }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, portNumber_);
-      }
       for (int i = 0; i < blockMetas_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, blockMetas_.get(i));
@@ -2268,21 +2736,6 @@ public final class ProtosHDFS {
       }
       proto.ProtosHDFS.DataNodeInfo other = (proto.ProtosHDFS.DataNodeInfo) obj;
 
-      if (hasDataNodeId() != other.hasDataNodeId()) return false;
-      if (hasDataNodeId()) {
-        if (!getDataNodeId()
-            .equals(other.getDataNodeId())) return false;
-      }
-      if (hasIpAddress() != other.hasIpAddress()) return false;
-      if (hasIpAddress()) {
-        if (!getIpAddress()
-            .equals(other.getIpAddress())) return false;
-      }
-      if (hasPortNumber() != other.hasPortNumber()) return false;
-      if (hasPortNumber()) {
-        if (getPortNumber()
-            != other.getPortNumber()) return false;
-      }
       if (!getBlockMetasList()
           .equals(other.getBlockMetasList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -2296,18 +2749,6 @@ public final class ProtosHDFS {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasDataNodeId()) {
-        hash = (37 * hash) + DATANODEID_FIELD_NUMBER;
-        hash = (53 * hash) + getDataNodeId().hashCode();
-      }
-      if (hasIpAddress()) {
-        hash = (37 * hash) + IPADDRESS_FIELD_NUMBER;
-        hash = (53 * hash) + getIpAddress().hashCode();
-      }
-      if (hasPortNumber()) {
-        hash = (37 * hash) + PORTNUMBER_FIELD_NUMBER;
-        hash = (53 * hash) + getPortNumber();
-      }
       if (getBlockMetasCount() > 0) {
         hash = (37 * hash) + BLOCKMETAS_FIELD_NUMBER;
         hash = (53 * hash) + getBlockMetasList().hashCode();
@@ -2408,6 +2849,10 @@ public final class ProtosHDFS {
       return builder;
     }
     /**
+     * <pre>
+     * DataNodeInfo only contains list of BlockMetaData it holds
+     * </pre>
+     *
      * Protobuf type {@code proto.DataNodeInfo}
      */
     public static final class Builder extends
@@ -2446,15 +2891,9 @@ public final class ProtosHDFS {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        dataNodeId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        ipAddress_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
-        portNumber_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         if (blockMetasBuilder_ == null) {
           blockMetas_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           blockMetasBuilder_.clear();
         }
@@ -2485,29 +2924,15 @@ public final class ProtosHDFS {
       public proto.ProtosHDFS.DataNodeInfo buildPartial() {
         proto.ProtosHDFS.DataNodeInfo result = new proto.ProtosHDFS.DataNodeInfo(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.dataNodeId_ = dataNodeId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.ipAddress_ = ipAddress_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.portNumber_ = portNumber_;
-          to_bitField0_ |= 0x00000004;
-        }
         if (blockMetasBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             blockMetas_ = java.util.Collections.unmodifiableList(blockMetas_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.blockMetas_ = blockMetas_;
         } else {
           result.blockMetas_ = blockMetasBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -2556,24 +2981,11 @@ public final class ProtosHDFS {
 
       public Builder mergeFrom(proto.ProtosHDFS.DataNodeInfo other) {
         if (other == proto.ProtosHDFS.DataNodeInfo.getDefaultInstance()) return this;
-        if (other.hasDataNodeId()) {
-          bitField0_ |= 0x00000001;
-          dataNodeId_ = other.dataNodeId_;
-          onChanged();
-        }
-        if (other.hasIpAddress()) {
-          bitField0_ |= 0x00000002;
-          ipAddress_ = other.ipAddress_;
-          onChanged();
-        }
-        if (other.hasPortNumber()) {
-          setPortNumber(other.getPortNumber());
-        }
         if (blockMetasBuilder_ == null) {
           if (!other.blockMetas_.isEmpty()) {
             if (blockMetas_.isEmpty()) {
               blockMetas_ = other.blockMetas_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureBlockMetasIsMutable();
               blockMetas_.addAll(other.blockMetas_);
@@ -2586,7 +2998,7 @@ public final class ProtosHDFS {
               blockMetasBuilder_.dispose();
               blockMetasBuilder_ = null;
               blockMetas_ = other.blockMetas_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
               blockMetasBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getBlockMetasFieldBuilder() : null;
@@ -2602,15 +3014,6 @@ public final class ProtosHDFS {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (!hasDataNodeId()) {
-          return false;
-        }
-        if (!hasIpAddress()) {
-          return false;
-        }
-        if (!hasPortNumber()) {
-          return false;
-        }
         for (int i = 0; i < getBlockMetasCount(); i++) {
           if (!getBlockMetas(i).isInitialized()) {
             return false;
@@ -2639,217 +3042,12 @@ public final class ProtosHDFS {
       }
       private int bitField0_;
 
-      private java.lang.Object dataNodeId_ = "";
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @return Whether the dataNodeId field is set.
-       */
-      public boolean hasDataNodeId() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @return The dataNodeId.
-       */
-      public java.lang.String getDataNodeId() {
-        java.lang.Object ref = dataNodeId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            dataNodeId_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @return The bytes for dataNodeId.
-       */
-      public com.google.protobuf.ByteString
-          getDataNodeIdBytes() {
-        java.lang.Object ref = dataNodeId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          dataNodeId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @param value The dataNodeId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setDataNodeId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        dataNodeId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearDataNodeId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        dataNodeId_ = getDefaultInstance().getDataNodeId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string dataNodeId = 1;</code>
-       * @param value The bytes for dataNodeId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setDataNodeIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        dataNodeId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object ipAddress_ = "";
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @return Whether the ipAddress field is set.
-       */
-      public boolean hasIpAddress() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @return The ipAddress.
-       */
-      public java.lang.String getIpAddress() {
-        java.lang.Object ref = ipAddress_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            ipAddress_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @return The bytes for ipAddress.
-       */
-      public com.google.protobuf.ByteString
-          getIpAddressBytes() {
-        java.lang.Object ref = ipAddress_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          ipAddress_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @param value The ipAddress to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIpAddress(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        ipAddress_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearIpAddress() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        ipAddress_ = getDefaultInstance().getIpAddress();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string ipAddress = 2;</code>
-       * @param value The bytes for ipAddress to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIpAddressBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        ipAddress_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int portNumber_ ;
-      /**
-       * <code>required int32 portNumber = 3;</code>
-       * @return Whether the portNumber field is set.
-       */
-      public boolean hasPortNumber() {
-        return ((bitField0_ & 0x00000004) != 0);
-      }
-      /**
-       * <code>required int32 portNumber = 3;</code>
-       * @return The portNumber.
-       */
-      public int getPortNumber() {
-        return portNumber_;
-      }
-      /**
-       * <code>required int32 portNumber = 3;</code>
-       * @param value The portNumber to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPortNumber(int value) {
-        bitField0_ |= 0x00000004;
-        portNumber_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 portNumber = 3;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPortNumber() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        portNumber_ = 0;
-        onChanged();
-        return this;
-      }
-
       private java.util.List<proto.ProtosHDFS.BlockMetaData> blockMetas_ =
         java.util.Collections.emptyList();
       private void ensureBlockMetasIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           blockMetas_ = new java.util.ArrayList<proto.ProtosHDFS.BlockMetaData>(blockMetas_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -2999,7 +3197,7 @@ public final class ProtosHDFS {
       public Builder clearBlockMetas() {
         if (blockMetasBuilder_ == null) {
           blockMetas_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           blockMetasBuilder_.clear();
@@ -3076,7 +3274,7 @@ public final class ProtosHDFS {
           blockMetasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               proto.ProtosHDFS.BlockMetaData, proto.ProtosHDFS.BlockMetaData.Builder, proto.ProtosHDFS.BlockMetaDataOrBuilder>(
                   blockMetas_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           blockMetas_ = null;
@@ -4631,19 +4829,58 @@ public final class ProtosHDFS {
     proto.ProtosHDFS.Request.RequestType getRequestType();
 
     /**
-     * <code>optional .proto.Block block = 3;</code>
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     * @return Whether the fileMeta field is set.
+     */
+    boolean hasFileMeta();
+    /**
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     * @return The fileMeta.
+     */
+    proto.ProtosHDFS.FileMetadata getFileMeta();
+    /**
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     */
+    proto.ProtosHDFS.FileMetadataOrBuilder getFileMetaOrBuilder();
+
+    /**
+     * <code>optional .proto.Block block = 4;</code>
      * @return Whether the block field is set.
      */
     boolean hasBlock();
     /**
-     * <code>optional .proto.Block block = 3;</code>
+     * <code>optional .proto.Block block = 4;</code>
      * @return The block.
      */
     proto.ProtosHDFS.Block getBlock();
     /**
-     * <code>optional .proto.Block block = 3;</code>
+     * <code>optional .proto.Block block = 4;</code>
      */
     proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder();
+
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    java.util.List<proto.ProtosHDFS.DataNodeInfo> 
+        getDataNodesList();
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    proto.ProtosHDFS.DataNodeInfo getDataNodes(int index);
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    int getDataNodesCount();
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
+        getDataNodesOrBuilderList();
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code proto.Request}
@@ -4660,6 +4897,7 @@ public final class ProtosHDFS {
     private Request() {
       requestId_ = "";
       requestType_ = 0;
+      dataNodes_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -4712,8 +4950,21 @@ public final class ProtosHDFS {
               break;
             }
             case 26: {
-              proto.ProtosHDFS.Block.Builder subBuilder = null;
+              proto.ProtosHDFS.FileMetadata.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) != 0)) {
+                subBuilder = fileMeta_.toBuilder();
+              }
+              fileMeta_ = input.readMessage(proto.ProtosHDFS.FileMetadata.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fileMeta_);
+                fileMeta_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              proto.ProtosHDFS.Block.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) != 0)) {
                 subBuilder = block_.toBuilder();
               }
               block_ = input.readMessage(proto.ProtosHDFS.Block.PARSER, extensionRegistry);
@@ -4721,7 +4972,16 @@ public final class ProtosHDFS {
                 subBuilder.mergeFrom(block_);
                 block_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
+                dataNodes_ = new java.util.ArrayList<proto.ProtosHDFS.DataNodeInfo>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              dataNodes_.add(
+                  input.readMessage(proto.ProtosHDFS.DataNodeInfo.PARSER, extensionRegistry));
               break;
             }
             default: {
@@ -4739,6 +4999,9 @@ public final class ProtosHDFS {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000010) != 0)) {
+          dataNodes_ = java.util.Collections.unmodifiableList(dataNodes_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -4962,27 +5225,85 @@ public final class ProtosHDFS {
       return result == null ? proto.ProtosHDFS.Request.RequestType.OPEN : result;
     }
 
-    public static final int BLOCK_FIELD_NUMBER = 3;
-    private proto.ProtosHDFS.Block block_;
+    public static final int FILEMETA_FIELD_NUMBER = 3;
+    private proto.ProtosHDFS.FileMetadata fileMeta_;
     /**
-     * <code>optional .proto.Block block = 3;</code>
-     * @return Whether the block field is set.
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     * @return Whether the fileMeta field is set.
      */
-    public boolean hasBlock() {
+    public boolean hasFileMeta() {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>optional .proto.Block block = 3;</code>
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     * @return The fileMeta.
+     */
+    public proto.ProtosHDFS.FileMetadata getFileMeta() {
+      return fileMeta_ == null ? proto.ProtosHDFS.FileMetadata.getDefaultInstance() : fileMeta_;
+    }
+    /**
+     * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+     */
+    public proto.ProtosHDFS.FileMetadataOrBuilder getFileMetaOrBuilder() {
+      return fileMeta_ == null ? proto.ProtosHDFS.FileMetadata.getDefaultInstance() : fileMeta_;
+    }
+
+    public static final int BLOCK_FIELD_NUMBER = 4;
+    private proto.ProtosHDFS.Block block_;
+    /**
+     * <code>optional .proto.Block block = 4;</code>
+     * @return Whether the block field is set.
+     */
+    public boolean hasBlock() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>optional .proto.Block block = 4;</code>
      * @return The block.
      */
     public proto.ProtosHDFS.Block getBlock() {
       return block_ == null ? proto.ProtosHDFS.Block.getDefaultInstance() : block_;
     }
     /**
-     * <code>optional .proto.Block block = 3;</code>
+     * <code>optional .proto.Block block = 4;</code>
      */
     public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder() {
       return block_ == null ? proto.ProtosHDFS.Block.getDefaultInstance() : block_;
+    }
+
+    public static final int DATANODES_FIELD_NUMBER = 5;
+    private java.util.List<proto.ProtosHDFS.DataNodeInfo> dataNodes_;
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    public java.util.List<proto.ProtosHDFS.DataNodeInfo> getDataNodesList() {
+      return dataNodes_;
+    }
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    public java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
+        getDataNodesOrBuilderList() {
+      return dataNodes_;
+    }
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    public int getDataNodesCount() {
+      return dataNodes_.size();
+    }
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    public proto.ProtosHDFS.DataNodeInfo getDataNodes(int index) {
+      return dataNodes_.get(index);
+    }
+    /**
+     * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+     */
+    public proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodesOrBuilder(
+        int index) {
+      return dataNodes_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -5000,8 +5321,20 @@ public final class ProtosHDFS {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasFileMeta()) {
+        if (!getFileMeta().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       if (hasBlock()) {
         if (!getBlock().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getDataNodesCount(); i++) {
+        if (!getDataNodes(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -5020,7 +5353,13 @@ public final class ProtosHDFS {
         output.writeEnum(2, requestType_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(3, getBlock());
+        output.writeMessage(3, getFileMeta());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(4, getBlock());
+      }
+      for (int i = 0; i < dataNodes_.size(); i++) {
+        output.writeMessage(5, dataNodes_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -5040,7 +5379,15 @@ public final class ProtosHDFS {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getBlock());
+          .computeMessageSize(3, getFileMeta());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getBlock());
+      }
+      for (int i = 0; i < dataNodes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, dataNodes_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5066,11 +5413,18 @@ public final class ProtosHDFS {
       if (hasRequestType()) {
         if (requestType_ != other.requestType_) return false;
       }
+      if (hasFileMeta() != other.hasFileMeta()) return false;
+      if (hasFileMeta()) {
+        if (!getFileMeta()
+            .equals(other.getFileMeta())) return false;
+      }
       if (hasBlock() != other.hasBlock()) return false;
       if (hasBlock()) {
         if (!getBlock()
             .equals(other.getBlock())) return false;
       }
+      if (!getDataNodesList()
+          .equals(other.getDataNodesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5090,9 +5444,17 @@ public final class ProtosHDFS {
         hash = (37 * hash) + REQUESTTYPE_FIELD_NUMBER;
         hash = (53 * hash) + requestType_;
       }
+      if (hasFileMeta()) {
+        hash = (37 * hash) + FILEMETA_FIELD_NUMBER;
+        hash = (53 * hash) + getFileMeta().hashCode();
+      }
       if (hasBlock()) {
         hash = (37 * hash) + BLOCK_FIELD_NUMBER;
         hash = (53 * hash) + getBlock().hashCode();
+      }
+      if (getDataNodesCount() > 0) {
+        hash = (37 * hash) + DATANODES_FIELD_NUMBER;
+        hash = (53 * hash) + getDataNodesList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5222,7 +5584,9 @@ public final class ProtosHDFS {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getFileMetaFieldBuilder();
           getBlockFieldBuilder();
+          getDataNodesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -5232,12 +5596,24 @@ public final class ProtosHDFS {
         bitField0_ = (bitField0_ & ~0x00000001);
         requestType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (fileMetaBuilder_ == null) {
+          fileMeta_ = null;
+        } else {
+          fileMetaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (blockBuilder_ == null) {
           block_ = null;
         } else {
           blockBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
+        if (dataNodesBuilder_ == null) {
+          dataNodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          dataNodesBuilder_.clear();
+        }
         return this;
       }
 
@@ -5275,12 +5651,29 @@ public final class ProtosHDFS {
         }
         result.requestType_ = requestType_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (fileMetaBuilder_ == null) {
+            result.fileMeta_ = fileMeta_;
+          } else {
+            result.fileMeta_ = fileMetaBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           if (blockBuilder_ == null) {
             result.block_ = block_;
           } else {
             result.block_ = blockBuilder_.build();
           }
-          to_bitField0_ |= 0x00000004;
+          to_bitField0_ |= 0x00000008;
+        }
+        if (dataNodesBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0)) {
+            dataNodes_ = java.util.Collections.unmodifiableList(dataNodes_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.dataNodes_ = dataNodes_;
+        } else {
+          result.dataNodes_ = dataNodesBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -5339,8 +5732,37 @@ public final class ProtosHDFS {
         if (other.hasRequestType()) {
           setRequestType(other.getRequestType());
         }
+        if (other.hasFileMeta()) {
+          mergeFileMeta(other.getFileMeta());
+        }
         if (other.hasBlock()) {
           mergeBlock(other.getBlock());
+        }
+        if (dataNodesBuilder_ == null) {
+          if (!other.dataNodes_.isEmpty()) {
+            if (dataNodes_.isEmpty()) {
+              dataNodes_ = other.dataNodes_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureDataNodesIsMutable();
+              dataNodes_.addAll(other.dataNodes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.dataNodes_.isEmpty()) {
+            if (dataNodesBuilder_.isEmpty()) {
+              dataNodesBuilder_.dispose();
+              dataNodesBuilder_ = null;
+              dataNodes_ = other.dataNodes_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              dataNodesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getDataNodesFieldBuilder() : null;
+            } else {
+              dataNodesBuilder_.addAllMessages(other.dataNodes_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5355,8 +5777,18 @@ public final class ProtosHDFS {
         if (!hasRequestType()) {
           return false;
         }
+        if (hasFileMeta()) {
+          if (!getFileMeta().isInitialized()) {
+            return false;
+          }
+        }
         if (hasBlock()) {
           if (!getBlock().isInitialized()) {
+            return false;
+          }
+        }
+        for (int i = 0; i < getDataNodesCount(); i++) {
+          if (!getDataNodes(i).isInitialized()) {
             return false;
           }
         }
@@ -5509,18 +5941,138 @@ public final class ProtosHDFS {
         return this;
       }
 
+      private proto.ProtosHDFS.FileMetadata fileMeta_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.ProtosHDFS.FileMetadata, proto.ProtosHDFS.FileMetadata.Builder, proto.ProtosHDFS.FileMetadataOrBuilder> fileMetaBuilder_;
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       * @return Whether the fileMeta field is set.
+       */
+      public boolean hasFileMeta() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       * @return The fileMeta.
+       */
+      public proto.ProtosHDFS.FileMetadata getFileMeta() {
+        if (fileMetaBuilder_ == null) {
+          return fileMeta_ == null ? proto.ProtosHDFS.FileMetadata.getDefaultInstance() : fileMeta_;
+        } else {
+          return fileMetaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public Builder setFileMeta(proto.ProtosHDFS.FileMetadata value) {
+        if (fileMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fileMeta_ = value;
+          onChanged();
+        } else {
+          fileMetaBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public Builder setFileMeta(
+          proto.ProtosHDFS.FileMetadata.Builder builderForValue) {
+        if (fileMetaBuilder_ == null) {
+          fileMeta_ = builderForValue.build();
+          onChanged();
+        } else {
+          fileMetaBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public Builder mergeFileMeta(proto.ProtosHDFS.FileMetadata value) {
+        if (fileMetaBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+              fileMeta_ != null &&
+              fileMeta_ != proto.ProtosHDFS.FileMetadata.getDefaultInstance()) {
+            fileMeta_ =
+              proto.ProtosHDFS.FileMetadata.newBuilder(fileMeta_).mergeFrom(value).buildPartial();
+          } else {
+            fileMeta_ = value;
+          }
+          onChanged();
+        } else {
+          fileMetaBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public Builder clearFileMeta() {
+        if (fileMetaBuilder_ == null) {
+          fileMeta_ = null;
+          onChanged();
+        } else {
+          fileMetaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public proto.ProtosHDFS.FileMetadata.Builder getFileMetaBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getFileMetaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      public proto.ProtosHDFS.FileMetadataOrBuilder getFileMetaOrBuilder() {
+        if (fileMetaBuilder_ != null) {
+          return fileMetaBuilder_.getMessageOrBuilder();
+        } else {
+          return fileMeta_ == null ?
+              proto.ProtosHDFS.FileMetadata.getDefaultInstance() : fileMeta_;
+        }
+      }
+      /**
+       * <code>optional .proto.FileMetadata fileMeta = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.ProtosHDFS.FileMetadata, proto.ProtosHDFS.FileMetadata.Builder, proto.ProtosHDFS.FileMetadataOrBuilder> 
+          getFileMetaFieldBuilder() {
+        if (fileMetaBuilder_ == null) {
+          fileMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              proto.ProtosHDFS.FileMetadata, proto.ProtosHDFS.FileMetadata.Builder, proto.ProtosHDFS.FileMetadataOrBuilder>(
+                  getFileMeta(),
+                  getParentForChildren(),
+                  isClean());
+          fileMeta_ = null;
+        }
+        return fileMetaBuilder_;
+      }
+
       private proto.ProtosHDFS.Block block_;
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder> blockBuilder_;
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        * @return Whether the block field is set.
        */
       public boolean hasBlock() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        * @return The block.
        */
       public proto.ProtosHDFS.Block getBlock() {
@@ -5531,7 +6083,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public Builder setBlock(proto.ProtosHDFS.Block value) {
         if (blockBuilder_ == null) {
@@ -5543,11 +6095,11 @@ public final class ProtosHDFS {
         } else {
           blockBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public Builder setBlock(
           proto.ProtosHDFS.Block.Builder builderForValue) {
@@ -5557,15 +6109,15 @@ public final class ProtosHDFS {
         } else {
           blockBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public Builder mergeBlock(proto.ProtosHDFS.Block value) {
         if (blockBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
+          if (((bitField0_ & 0x00000008) != 0) &&
               block_ != null &&
               block_ != proto.ProtosHDFS.Block.getDefaultInstance()) {
             block_ =
@@ -5577,11 +6129,11 @@ public final class ProtosHDFS {
         } else {
           blockBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public Builder clearBlock() {
         if (blockBuilder_ == null) {
@@ -5590,19 +6142,19 @@ public final class ProtosHDFS {
         } else {
           blockBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public proto.ProtosHDFS.Block.Builder getBlockBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return getBlockFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder() {
         if (blockBuilder_ != null) {
@@ -5613,7 +6165,7 @@ public final class ProtosHDFS {
         }
       }
       /**
-       * <code>optional .proto.Block block = 3;</code>
+       * <code>optional .proto.Block block = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder> 
@@ -5627,6 +6179,246 @@ public final class ProtosHDFS {
           block_ = null;
         }
         return blockBuilder_;
+      }
+
+      private java.util.List<proto.ProtosHDFS.DataNodeInfo> dataNodes_ =
+        java.util.Collections.emptyList();
+      private void ensureDataNodesIsMutable() {
+        if (!((bitField0_ & 0x00000010) != 0)) {
+          dataNodes_ = new java.util.ArrayList<proto.ProtosHDFS.DataNodeInfo>(dataNodes_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder> dataNodesBuilder_;
+
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public java.util.List<proto.ProtosHDFS.DataNodeInfo> getDataNodesList() {
+        if (dataNodesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(dataNodes_);
+        } else {
+          return dataNodesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public int getDataNodesCount() {
+        if (dataNodesBuilder_ == null) {
+          return dataNodes_.size();
+        } else {
+          return dataNodesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public proto.ProtosHDFS.DataNodeInfo getDataNodes(int index) {
+        if (dataNodesBuilder_ == null) {
+          return dataNodes_.get(index);
+        } else {
+          return dataNodesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder setDataNodes(
+          int index, proto.ProtosHDFS.DataNodeInfo value) {
+        if (dataNodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataNodesIsMutable();
+          dataNodes_.set(index, value);
+          onChanged();
+        } else {
+          dataNodesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder setDataNodes(
+          int index, proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
+        if (dataNodesBuilder_ == null) {
+          ensureDataNodesIsMutable();
+          dataNodes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          dataNodesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder addDataNodes(proto.ProtosHDFS.DataNodeInfo value) {
+        if (dataNodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataNodesIsMutable();
+          dataNodes_.add(value);
+          onChanged();
+        } else {
+          dataNodesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder addDataNodes(
+          int index, proto.ProtosHDFS.DataNodeInfo value) {
+        if (dataNodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataNodesIsMutable();
+          dataNodes_.add(index, value);
+          onChanged();
+        } else {
+          dataNodesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder addDataNodes(
+          proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
+        if (dataNodesBuilder_ == null) {
+          ensureDataNodesIsMutable();
+          dataNodes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          dataNodesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder addDataNodes(
+          int index, proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
+        if (dataNodesBuilder_ == null) {
+          ensureDataNodesIsMutable();
+          dataNodes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          dataNodesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder addAllDataNodes(
+          java.lang.Iterable<? extends proto.ProtosHDFS.DataNodeInfo> values) {
+        if (dataNodesBuilder_ == null) {
+          ensureDataNodesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, dataNodes_);
+          onChanged();
+        } else {
+          dataNodesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder clearDataNodes() {
+        if (dataNodesBuilder_ == null) {
+          dataNodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          dataNodesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public Builder removeDataNodes(int index) {
+        if (dataNodesBuilder_ == null) {
+          ensureDataNodesIsMutable();
+          dataNodes_.remove(index);
+          onChanged();
+        } else {
+          dataNodesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public proto.ProtosHDFS.DataNodeInfo.Builder getDataNodesBuilder(
+          int index) {
+        return getDataNodesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodesOrBuilder(
+          int index) {
+        if (dataNodesBuilder_ == null) {
+          return dataNodes_.get(index);  } else {
+          return dataNodesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
+           getDataNodesOrBuilderList() {
+        if (dataNodesBuilder_ != null) {
+          return dataNodesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(dataNodes_);
+        }
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public proto.ProtosHDFS.DataNodeInfo.Builder addDataNodesBuilder() {
+        return getDataNodesFieldBuilder().addBuilder(
+            proto.ProtosHDFS.DataNodeInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public proto.ProtosHDFS.DataNodeInfo.Builder addDataNodesBuilder(
+          int index) {
+        return getDataNodesFieldBuilder().addBuilder(
+            index, proto.ProtosHDFS.DataNodeInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .proto.DataNodeInfo dataNodes = 5;</code>
+       */
+      public java.util.List<proto.ProtosHDFS.DataNodeInfo.Builder> 
+           getDataNodesBuilderList() {
+        return getDataNodesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder> 
+          getDataNodesFieldBuilder() {
+        if (dataNodesBuilder_ == null) {
+          dataNodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder>(
+                  dataNodes_,
+                  ((bitField0_ & 0x00000010) != 0),
+                  getParentForChildren(),
+                  isClean());
+          dataNodes_ = null;
+        }
+        return dataNodesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -5676,6 +6468,643 @@ public final class ProtosHDFS {
 
     @java.lang.Override
     public proto.ProtosHDFS.Request getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PipelineOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:proto.Pipeline)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @return A list containing the dataNodeId.
+     */
+    java.util.List<java.lang.String>
+        getDataNodeIdList();
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @return The count of dataNodeId.
+     */
+    int getDataNodeIdCount();
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The dataNodeId at the given index.
+     */
+    java.lang.String getDataNodeId(int index);
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the dataNodeId at the given index.
+     */
+    com.google.protobuf.ByteString
+        getDataNodeIdBytes(int index);
+  }
+  /**
+   * Protobuf type {@code proto.Pipeline}
+   */
+  public  static final class Pipeline extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:proto.Pipeline)
+      PipelineOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Pipeline.newBuilder() to construct.
+    private Pipeline(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Pipeline() {
+      dataNodeId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Pipeline();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Pipeline(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                dataNodeId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              dataNodeId_.add(bs);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          dataNodeId_ = dataNodeId_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return proto.ProtosHDFS.internal_static_proto_Pipeline_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return proto.ProtosHDFS.internal_static_proto_Pipeline_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              proto.ProtosHDFS.Pipeline.class, proto.ProtosHDFS.Pipeline.Builder.class);
+    }
+
+    public static final int DATANODEID_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList dataNodeId_;
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @return A list containing the dataNodeId.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getDataNodeIdList() {
+      return dataNodeId_;
+    }
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @return The count of dataNodeId.
+     */
+    public int getDataNodeIdCount() {
+      return dataNodeId_.size();
+    }
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The dataNodeId at the given index.
+     */
+    public java.lang.String getDataNodeId(int index) {
+      return dataNodeId_.get(index);
+    }
+    /**
+     * <code>repeated string dataNodeId = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the dataNodeId at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getDataNodeIdBytes(int index) {
+      return dataNodeId_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < dataNodeId_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, dataNodeId_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dataNodeId_.size(); i++) {
+          dataSize += computeStringSizeNoTag(dataNodeId_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getDataNodeIdList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof proto.ProtosHDFS.Pipeline)) {
+        return super.equals(obj);
+      }
+      proto.ProtosHDFS.Pipeline other = (proto.ProtosHDFS.Pipeline) obj;
+
+      if (!getDataNodeIdList()
+          .equals(other.getDataNodeIdList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getDataNodeIdCount() > 0) {
+        hash = (37 * hash) + DATANODEID_FIELD_NUMBER;
+        hash = (53 * hash) + getDataNodeIdList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.ProtosHDFS.Pipeline parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static proto.ProtosHDFS.Pipeline parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.ProtosHDFS.Pipeline parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(proto.ProtosHDFS.Pipeline prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code proto.Pipeline}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:proto.Pipeline)
+        proto.ProtosHDFS.PipelineOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.ProtosHDFS.internal_static_proto_Pipeline_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.ProtosHDFS.internal_static_proto_Pipeline_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.ProtosHDFS.Pipeline.class, proto.ProtosHDFS.Pipeline.Builder.class);
+      }
+
+      // Construct using proto.ProtosHDFS.Pipeline.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        dataNodeId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return proto.ProtosHDFS.internal_static_proto_Pipeline_descriptor;
+      }
+
+      @java.lang.Override
+      public proto.ProtosHDFS.Pipeline getDefaultInstanceForType() {
+        return proto.ProtosHDFS.Pipeline.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public proto.ProtosHDFS.Pipeline build() {
+        proto.ProtosHDFS.Pipeline result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public proto.ProtosHDFS.Pipeline buildPartial() {
+        proto.ProtosHDFS.Pipeline result = new proto.ProtosHDFS.Pipeline(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          dataNodeId_ = dataNodeId_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.dataNodeId_ = dataNodeId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof proto.ProtosHDFS.Pipeline) {
+          return mergeFrom((proto.ProtosHDFS.Pipeline)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(proto.ProtosHDFS.Pipeline other) {
+        if (other == proto.ProtosHDFS.Pipeline.getDefaultInstance()) return this;
+        if (!other.dataNodeId_.isEmpty()) {
+          if (dataNodeId_.isEmpty()) {
+            dataNodeId_ = other.dataNodeId_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureDataNodeIdIsMutable();
+            dataNodeId_.addAll(other.dataNodeId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        proto.ProtosHDFS.Pipeline parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (proto.ProtosHDFS.Pipeline) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList dataNodeId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureDataNodeIdIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          dataNodeId_ = new com.google.protobuf.LazyStringArrayList(dataNodeId_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @return A list containing the dataNodeId.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getDataNodeIdList() {
+        return dataNodeId_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @return The count of dataNodeId.
+       */
+      public int getDataNodeIdCount() {
+        return dataNodeId_.size();
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param index The index of the element to return.
+       * @return The dataNodeId at the given index.
+       */
+      public java.lang.String getDataNodeId(int index) {
+        return dataNodeId_.get(index);
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the dataNodeId at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getDataNodeIdBytes(int index) {
+        return dataNodeId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The dataNodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataNodeId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataNodeIdIsMutable();
+        dataNodeId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param value The dataNodeId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDataNodeId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataNodeIdIsMutable();
+        dataNodeId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param values The dataNodeId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllDataNodeId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureDataNodeIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dataNodeId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDataNodeId() {
+        dataNodeId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dataNodeId = 1;</code>
+       * @param value The bytes of the dataNodeId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDataNodeIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataNodeIdIsMutable();
+        dataNodeId_.add(value);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:proto.Pipeline)
+    }
+
+    // @@protoc_insertion_point(class_scope:proto.Pipeline)
+    private static final proto.ProtosHDFS.Pipeline DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new proto.ProtosHDFS.Pipeline();
+    }
+
+    public static proto.ProtosHDFS.Pipeline getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Pipeline>
+        PARSER = new com.google.protobuf.AbstractParser<Pipeline>() {
+      @java.lang.Override
+      public Pipeline parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Pipeline(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Pipeline> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Pipeline> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public proto.ProtosHDFS.Pipeline getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5731,42 +7160,51 @@ public final class ProtosHDFS {
         getErrorMessageBytes();
 
     /**
-     * <code>optional .proto.Block block = 4;</code>
-     * @return Whether the block field is set.
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    boolean hasBlock();
+    java.util.List<proto.ProtosHDFS.Block> 
+        getBlockList();
     /**
-     * <code>optional .proto.Block block = 4;</code>
-     * @return The block.
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    proto.ProtosHDFS.Block getBlock();
+    proto.ProtosHDFS.Block getBlock(int index);
     /**
-     * <code>optional .proto.Block block = 4;</code>
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder();
+    int getBlockCount();
+    /**
+     * <code>repeated .proto.Block block = 4;</code>
+     */
+    java.util.List<? extends proto.ProtosHDFS.BlockOrBuilder> 
+        getBlockOrBuilderList();
+    /**
+     * <code>repeated .proto.Block block = 4;</code>
+     */
+    proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder(
+        int index);
 
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    java.util.List<proto.ProtosHDFS.DataNodeInfo> 
-        getDataNodeInfoList();
+    java.util.List<proto.ProtosHDFS.Pipeline> 
+        getPipelinesList();
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    proto.ProtosHDFS.DataNodeInfo getDataNodeInfo(int index);
+    proto.ProtosHDFS.Pipeline getPipelines(int index);
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    int getDataNodeInfoCount();
+    int getPipelinesCount();
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
-        getDataNodeInfoOrBuilderList();
+    java.util.List<? extends proto.ProtosHDFS.PipelineOrBuilder> 
+        getPipelinesOrBuilderList();
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodeInfoOrBuilder(
+    proto.ProtosHDFS.PipelineOrBuilder getPipelinesOrBuilder(
         int index);
   }
   /**
@@ -5785,7 +7223,8 @@ public final class ProtosHDFS {
       responseId_ = "";
       responseType_ = 0;
       errorMessage_ = "";
-      dataNodeInfo_ = java.util.Collections.emptyList();
+      block_ = java.util.Collections.emptyList();
+      pipelines_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -5844,25 +7283,21 @@ public final class ProtosHDFS {
               break;
             }
             case 34: {
-              proto.ProtosHDFS.Block.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) != 0)) {
-                subBuilder = block_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                block_ = new java.util.ArrayList<proto.ProtosHDFS.Block>();
+                mutable_bitField0_ |= 0x00000008;
               }
-              block_ = input.readMessage(proto.ProtosHDFS.Block.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(block_);
-                block_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000008;
+              block_.add(
+                  input.readMessage(proto.ProtosHDFS.Block.PARSER, extensionRegistry));
               break;
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000010) != 0)) {
-                dataNodeInfo_ = new java.util.ArrayList<proto.ProtosHDFS.DataNodeInfo>();
+                pipelines_ = new java.util.ArrayList<proto.ProtosHDFS.Pipeline>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              dataNodeInfo_.add(
-                  input.readMessage(proto.ProtosHDFS.DataNodeInfo.PARSER, extensionRegistry));
+              pipelines_.add(
+                  input.readMessage(proto.ProtosHDFS.Pipeline.PARSER, extensionRegistry));
               break;
             }
             default: {
@@ -5880,8 +7315,11 @@ public final class ProtosHDFS {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          block_ = java.util.Collections.unmodifiableList(block_);
+        }
         if (((mutable_bitField0_ & 0x00000010) != 0)) {
-          dataNodeInfo_ = java.util.Collections.unmodifiableList(dataNodeInfo_);
+          pipelines_ = java.util.Collections.unmodifiableList(pipelines_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6107,61 +7545,73 @@ public final class ProtosHDFS {
     }
 
     public static final int BLOCK_FIELD_NUMBER = 4;
-    private proto.ProtosHDFS.Block block_;
+    private java.util.List<proto.ProtosHDFS.Block> block_;
     /**
-     * <code>optional .proto.Block block = 4;</code>
-     * @return Whether the block field is set.
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    public boolean hasBlock() {
-      return ((bitField0_ & 0x00000008) != 0);
+    public java.util.List<proto.ProtosHDFS.Block> getBlockList() {
+      return block_;
     }
     /**
-     * <code>optional .proto.Block block = 4;</code>
-     * @return The block.
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    public proto.ProtosHDFS.Block getBlock() {
-      return block_ == null ? proto.ProtosHDFS.Block.getDefaultInstance() : block_;
+    public java.util.List<? extends proto.ProtosHDFS.BlockOrBuilder> 
+        getBlockOrBuilderList() {
+      return block_;
     }
     /**
-     * <code>optional .proto.Block block = 4;</code>
+     * <code>repeated .proto.Block block = 4;</code>
      */
-    public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder() {
-      return block_ == null ? proto.ProtosHDFS.Block.getDefaultInstance() : block_;
+    public int getBlockCount() {
+      return block_.size();
+    }
+    /**
+     * <code>repeated .proto.Block block = 4;</code>
+     */
+    public proto.ProtosHDFS.Block getBlock(int index) {
+      return block_.get(index);
+    }
+    /**
+     * <code>repeated .proto.Block block = 4;</code>
+     */
+    public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder(
+        int index) {
+      return block_.get(index);
     }
 
-    public static final int DATANODEINFO_FIELD_NUMBER = 5;
-    private java.util.List<proto.ProtosHDFS.DataNodeInfo> dataNodeInfo_;
+    public static final int PIPELINES_FIELD_NUMBER = 5;
+    private java.util.List<proto.ProtosHDFS.Pipeline> pipelines_;
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    public java.util.List<proto.ProtosHDFS.DataNodeInfo> getDataNodeInfoList() {
-      return dataNodeInfo_;
+    public java.util.List<proto.ProtosHDFS.Pipeline> getPipelinesList() {
+      return pipelines_;
     }
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    public java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
-        getDataNodeInfoOrBuilderList() {
-      return dataNodeInfo_;
+    public java.util.List<? extends proto.ProtosHDFS.PipelineOrBuilder> 
+        getPipelinesOrBuilderList() {
+      return pipelines_;
     }
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    public int getDataNodeInfoCount() {
-      return dataNodeInfo_.size();
+    public int getPipelinesCount() {
+      return pipelines_.size();
     }
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    public proto.ProtosHDFS.DataNodeInfo getDataNodeInfo(int index) {
-      return dataNodeInfo_.get(index);
+    public proto.ProtosHDFS.Pipeline getPipelines(int index) {
+      return pipelines_.get(index);
     }
     /**
-     * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+     * <code>repeated .proto.Pipeline pipelines = 5;</code>
      */
-    public proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodeInfoOrBuilder(
+    public proto.ProtosHDFS.PipelineOrBuilder getPipelinesOrBuilder(
         int index) {
-      return dataNodeInfo_.get(index);
+      return pipelines_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6179,14 +7629,8 @@ public final class ProtosHDFS {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (hasBlock()) {
-        if (!getBlock().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      for (int i = 0; i < getDataNodeInfoCount(); i++) {
-        if (!getDataNodeInfo(i).isInitialized()) {
+      for (int i = 0; i < getBlockCount(); i++) {
+        if (!getBlock(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -6207,11 +7651,11 @@ public final class ProtosHDFS {
       if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, errorMessage_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeMessage(4, getBlock());
+      for (int i = 0; i < block_.size(); i++) {
+        output.writeMessage(4, block_.get(i));
       }
-      for (int i = 0; i < dataNodeInfo_.size(); i++) {
-        output.writeMessage(5, dataNodeInfo_.get(i));
+      for (int i = 0; i < pipelines_.size(); i++) {
+        output.writeMessage(5, pipelines_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6232,13 +7676,13 @@ public final class ProtosHDFS {
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, errorMessage_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      for (int i = 0; i < block_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getBlock());
+          .computeMessageSize(4, block_.get(i));
       }
-      for (int i = 0; i < dataNodeInfo_.size(); i++) {
+      for (int i = 0; i < pipelines_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, dataNodeInfo_.get(i));
+          .computeMessageSize(5, pipelines_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6269,13 +7713,10 @@ public final class ProtosHDFS {
         if (!getErrorMessage()
             .equals(other.getErrorMessage())) return false;
       }
-      if (hasBlock() != other.hasBlock()) return false;
-      if (hasBlock()) {
-        if (!getBlock()
-            .equals(other.getBlock())) return false;
-      }
-      if (!getDataNodeInfoList()
-          .equals(other.getDataNodeInfoList())) return false;
+      if (!getBlockList()
+          .equals(other.getBlockList())) return false;
+      if (!getPipelinesList()
+          .equals(other.getPipelinesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6299,13 +7740,13 @@ public final class ProtosHDFS {
         hash = (37 * hash) + ERRORMESSAGE_FIELD_NUMBER;
         hash = (53 * hash) + getErrorMessage().hashCode();
       }
-      if (hasBlock()) {
+      if (getBlockCount() > 0) {
         hash = (37 * hash) + BLOCK_FIELD_NUMBER;
-        hash = (53 * hash) + getBlock().hashCode();
+        hash = (53 * hash) + getBlockList().hashCode();
       }
-      if (getDataNodeInfoCount() > 0) {
-        hash = (37 * hash) + DATANODEINFO_FIELD_NUMBER;
-        hash = (53 * hash) + getDataNodeInfoList().hashCode();
+      if (getPipelinesCount() > 0) {
+        hash = (37 * hash) + PIPELINES_FIELD_NUMBER;
+        hash = (53 * hash) + getPipelinesList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -6436,7 +7877,7 @@ public final class ProtosHDFS {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getBlockFieldBuilder();
-          getDataNodeInfoFieldBuilder();
+          getPipelinesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -6449,16 +7890,16 @@ public final class ProtosHDFS {
         errorMessage_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         if (blockBuilder_ == null) {
-          block_ = null;
+          block_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           blockBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
-        if (dataNodeInfoBuilder_ == null) {
-          dataNodeInfo_ = java.util.Collections.emptyList();
+        if (pipelinesBuilder_ == null) {
+          pipelines_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000010);
         } else {
-          dataNodeInfoBuilder_.clear();
+          pipelinesBuilder_.clear();
         }
         return this;
       }
@@ -6500,22 +7941,23 @@ public final class ProtosHDFS {
           to_bitField0_ |= 0x00000004;
         }
         result.errorMessage_ = errorMessage_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          if (blockBuilder_ == null) {
-            result.block_ = block_;
-          } else {
-            result.block_ = blockBuilder_.build();
+        if (blockBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0)) {
+            block_ = java.util.Collections.unmodifiableList(block_);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
-          to_bitField0_ |= 0x00000008;
+          result.block_ = block_;
+        } else {
+          result.block_ = blockBuilder_.build();
         }
-        if (dataNodeInfoBuilder_ == null) {
+        if (pipelinesBuilder_ == null) {
           if (((bitField0_ & 0x00000010) != 0)) {
-            dataNodeInfo_ = java.util.Collections.unmodifiableList(dataNodeInfo_);
+            pipelines_ = java.util.Collections.unmodifiableList(pipelines_);
             bitField0_ = (bitField0_ & ~0x00000010);
           }
-          result.dataNodeInfo_ = dataNodeInfo_;
+          result.pipelines_ = pipelines_;
         } else {
-          result.dataNodeInfo_ = dataNodeInfoBuilder_.build();
+          result.pipelines_ = pipelinesBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -6579,32 +8021,55 @@ public final class ProtosHDFS {
           errorMessage_ = other.errorMessage_;
           onChanged();
         }
-        if (other.hasBlock()) {
-          mergeBlock(other.getBlock());
-        }
-        if (dataNodeInfoBuilder_ == null) {
-          if (!other.dataNodeInfo_.isEmpty()) {
-            if (dataNodeInfo_.isEmpty()) {
-              dataNodeInfo_ = other.dataNodeInfo_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+        if (blockBuilder_ == null) {
+          if (!other.block_.isEmpty()) {
+            if (block_.isEmpty()) {
+              block_ = other.block_;
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
-              ensureDataNodeInfoIsMutable();
-              dataNodeInfo_.addAll(other.dataNodeInfo_);
+              ensureBlockIsMutable();
+              block_.addAll(other.block_);
             }
             onChanged();
           }
         } else {
-          if (!other.dataNodeInfo_.isEmpty()) {
-            if (dataNodeInfoBuilder_.isEmpty()) {
-              dataNodeInfoBuilder_.dispose();
-              dataNodeInfoBuilder_ = null;
-              dataNodeInfo_ = other.dataNodeInfo_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-              dataNodeInfoBuilder_ = 
+          if (!other.block_.isEmpty()) {
+            if (blockBuilder_.isEmpty()) {
+              blockBuilder_.dispose();
+              blockBuilder_ = null;
+              block_ = other.block_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              blockBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getDataNodeInfoFieldBuilder() : null;
+                   getBlockFieldBuilder() : null;
             } else {
-              dataNodeInfoBuilder_.addAllMessages(other.dataNodeInfo_);
+              blockBuilder_.addAllMessages(other.block_);
+            }
+          }
+        }
+        if (pipelinesBuilder_ == null) {
+          if (!other.pipelines_.isEmpty()) {
+            if (pipelines_.isEmpty()) {
+              pipelines_ = other.pipelines_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensurePipelinesIsMutable();
+              pipelines_.addAll(other.pipelines_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.pipelines_.isEmpty()) {
+            if (pipelinesBuilder_.isEmpty()) {
+              pipelinesBuilder_.dispose();
+              pipelinesBuilder_ = null;
+              pipelines_ = other.pipelines_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              pipelinesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getPipelinesFieldBuilder() : null;
+            } else {
+              pipelinesBuilder_.addAllMessages(other.pipelines_);
             }
           }
         }
@@ -6621,13 +8086,8 @@ public final class ProtosHDFS {
         if (!hasResponseType()) {
           return false;
         }
-        if (hasBlock()) {
-          if (!getBlock().isInitialized()) {
-            return false;
-          }
-        }
-        for (int i = 0; i < getDataNodeInfoCount(); i++) {
-          if (!getDataNodeInfo(i).isInitialized()) {
+        for (int i = 0; i < getBlockCount(); i++) {
+          if (!getBlock(i).isInitialized()) {
             return false;
           }
         }
@@ -6864,119 +8324,239 @@ public final class ProtosHDFS {
         return this;
       }
 
-      private proto.ProtosHDFS.Block block_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder> blockBuilder_;
-      /**
-       * <code>optional .proto.Block block = 4;</code>
-       * @return Whether the block field is set.
-       */
-      public boolean hasBlock() {
-        return ((bitField0_ & 0x00000008) != 0);
+      private java.util.List<proto.ProtosHDFS.Block> block_ =
+        java.util.Collections.emptyList();
+      private void ensureBlockIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          block_ = new java.util.ArrayList<proto.ProtosHDFS.Block>(block_);
+          bitField0_ |= 0x00000008;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder> blockBuilder_;
+
       /**
-       * <code>optional .proto.Block block = 4;</code>
-       * @return The block.
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      public proto.ProtosHDFS.Block getBlock() {
+      public java.util.List<proto.ProtosHDFS.Block> getBlockList() {
         if (blockBuilder_ == null) {
-          return block_ == null ? proto.ProtosHDFS.Block.getDefaultInstance() : block_;
+          return java.util.Collections.unmodifiableList(block_);
         } else {
-          return blockBuilder_.getMessage();
+          return blockBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      public Builder setBlock(proto.ProtosHDFS.Block value) {
+      public int getBlockCount() {
+        if (blockBuilder_ == null) {
+          return block_.size();
+        } else {
+          return blockBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public proto.ProtosHDFS.Block getBlock(int index) {
+        if (blockBuilder_ == null) {
+          return block_.get(index);
+        } else {
+          return blockBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public Builder setBlock(
+          int index, proto.ProtosHDFS.Block value) {
         if (blockBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          block_ = value;
+          ensureBlockIsMutable();
+          block_.set(index, value);
           onChanged();
         } else {
-          blockBuilder_.setMessage(value);
+          blockBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
       public Builder setBlock(
+          int index, proto.ProtosHDFS.Block.Builder builderForValue) {
+        if (blockBuilder_ == null) {
+          ensureBlockIsMutable();
+          block_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          blockBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public Builder addBlock(proto.ProtosHDFS.Block value) {
+        if (blockBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBlockIsMutable();
+          block_.add(value);
+          onChanged();
+        } else {
+          blockBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public Builder addBlock(
+          int index, proto.ProtosHDFS.Block value) {
+        if (blockBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBlockIsMutable();
+          block_.add(index, value);
+          onChanged();
+        } else {
+          blockBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public Builder addBlock(
           proto.ProtosHDFS.Block.Builder builderForValue) {
         if (blockBuilder_ == null) {
-          block_ = builderForValue.build();
+          ensureBlockIsMutable();
+          block_.add(builderForValue.build());
           onChanged();
         } else {
-          blockBuilder_.setMessage(builderForValue.build());
+          blockBuilder_.addMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      public Builder mergeBlock(proto.ProtosHDFS.Block value) {
+      public Builder addBlock(
+          int index, proto.ProtosHDFS.Block.Builder builderForValue) {
         if (blockBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
-              block_ != null &&
-              block_ != proto.ProtosHDFS.Block.getDefaultInstance()) {
-            block_ =
-              proto.ProtosHDFS.Block.newBuilder(block_).mergeFrom(value).buildPartial();
-          } else {
-            block_ = value;
-          }
+          ensureBlockIsMutable();
+          block_.add(index, builderForValue.build());
           onChanged();
         } else {
-          blockBuilder_.mergeFrom(value);
+          blockBuilder_.addMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public Builder addAllBlock(
+          java.lang.Iterable<? extends proto.ProtosHDFS.Block> values) {
+        if (blockBuilder_ == null) {
+          ensureBlockIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, block_);
+          onChanged();
+        } else {
+          blockBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
        */
       public Builder clearBlock() {
         if (blockBuilder_ == null) {
-          block_ = null;
+          block_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           blockBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      public proto.ProtosHDFS.Block.Builder getBlockBuilder() {
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return getBlockFieldBuilder().getBuilder();
+      public Builder removeBlock(int index) {
+        if (blockBuilder_ == null) {
+          ensureBlockIsMutable();
+          block_.remove(index);
+          onChanged();
+        } else {
+          blockBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder() {
-        if (blockBuilder_ != null) {
-          return blockBuilder_.getMessageOrBuilder();
-        } else {
-          return block_ == null ?
-              proto.ProtosHDFS.Block.getDefaultInstance() : block_;
+      public proto.ProtosHDFS.Block.Builder getBlockBuilder(
+          int index) {
+        return getBlockFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public proto.ProtosHDFS.BlockOrBuilder getBlockOrBuilder(
+          int index) {
+        if (blockBuilder_ == null) {
+          return block_.get(index);  } else {
+          return blockBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>optional .proto.Block block = 4;</code>
+       * <code>repeated .proto.Block block = 4;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      public java.util.List<? extends proto.ProtosHDFS.BlockOrBuilder> 
+           getBlockOrBuilderList() {
+        if (blockBuilder_ != null) {
+          return blockBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(block_);
+        }
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public proto.ProtosHDFS.Block.Builder addBlockBuilder() {
+        return getBlockFieldBuilder().addBuilder(
+            proto.ProtosHDFS.Block.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public proto.ProtosHDFS.Block.Builder addBlockBuilder(
+          int index) {
+        return getBlockFieldBuilder().addBuilder(
+            index, proto.ProtosHDFS.Block.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .proto.Block block = 4;</code>
+       */
+      public java.util.List<proto.ProtosHDFS.Block.Builder> 
+           getBlockBuilderList() {
+        return getBlockFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder> 
           getBlockFieldBuilder() {
         if (blockBuilder_ == null) {
-          blockBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          blockBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               proto.ProtosHDFS.Block, proto.ProtosHDFS.Block.Builder, proto.ProtosHDFS.BlockOrBuilder>(
-                  getBlock(),
+                  block_,
+                  ((bitField0_ & 0x00000008) != 0),
                   getParentForChildren(),
                   isClean());
           block_ = null;
@@ -6984,244 +8564,244 @@ public final class ProtosHDFS {
         return blockBuilder_;
       }
 
-      private java.util.List<proto.ProtosHDFS.DataNodeInfo> dataNodeInfo_ =
+      private java.util.List<proto.ProtosHDFS.Pipeline> pipelines_ =
         java.util.Collections.emptyList();
-      private void ensureDataNodeInfoIsMutable() {
+      private void ensurePipelinesIsMutable() {
         if (!((bitField0_ & 0x00000010) != 0)) {
-          dataNodeInfo_ = new java.util.ArrayList<proto.ProtosHDFS.DataNodeInfo>(dataNodeInfo_);
+          pipelines_ = new java.util.ArrayList<proto.ProtosHDFS.Pipeline>(pipelines_);
           bitField0_ |= 0x00000010;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder> dataNodeInfoBuilder_;
+          proto.ProtosHDFS.Pipeline, proto.ProtosHDFS.Pipeline.Builder, proto.ProtosHDFS.PipelineOrBuilder> pipelinesBuilder_;
 
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public java.util.List<proto.ProtosHDFS.DataNodeInfo> getDataNodeInfoList() {
-        if (dataNodeInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(dataNodeInfo_);
+      public java.util.List<proto.ProtosHDFS.Pipeline> getPipelinesList() {
+        if (pipelinesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(pipelines_);
         } else {
-          return dataNodeInfoBuilder_.getMessageList();
+          return pipelinesBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public int getDataNodeInfoCount() {
-        if (dataNodeInfoBuilder_ == null) {
-          return dataNodeInfo_.size();
+      public int getPipelinesCount() {
+        if (pipelinesBuilder_ == null) {
+          return pipelines_.size();
         } else {
-          return dataNodeInfoBuilder_.getCount();
+          return pipelinesBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public proto.ProtosHDFS.DataNodeInfo getDataNodeInfo(int index) {
-        if (dataNodeInfoBuilder_ == null) {
-          return dataNodeInfo_.get(index);
+      public proto.ProtosHDFS.Pipeline getPipelines(int index) {
+        if (pipelinesBuilder_ == null) {
+          return pipelines_.get(index);
         } else {
-          return dataNodeInfoBuilder_.getMessage(index);
+          return pipelinesBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder setDataNodeInfo(
-          int index, proto.ProtosHDFS.DataNodeInfo value) {
-        if (dataNodeInfoBuilder_ == null) {
+      public Builder setPipelines(
+          int index, proto.ProtosHDFS.Pipeline value) {
+        if (pipelinesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.set(index, value);
+          ensurePipelinesIsMutable();
+          pipelines_.set(index, value);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.setMessage(index, value);
+          pipelinesBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder setDataNodeInfo(
-          int index, proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
-        if (dataNodeInfoBuilder_ == null) {
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.set(index, builderForValue.build());
+      public Builder setPipelines(
+          int index, proto.ProtosHDFS.Pipeline.Builder builderForValue) {
+        if (pipelinesBuilder_ == null) {
+          ensurePipelinesIsMutable();
+          pipelines_.set(index, builderForValue.build());
           onChanged();
         } else {
-          dataNodeInfoBuilder_.setMessage(index, builderForValue.build());
+          pipelinesBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder addDataNodeInfo(proto.ProtosHDFS.DataNodeInfo value) {
-        if (dataNodeInfoBuilder_ == null) {
+      public Builder addPipelines(proto.ProtosHDFS.Pipeline value) {
+        if (pipelinesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.add(value);
+          ensurePipelinesIsMutable();
+          pipelines_.add(value);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.addMessage(value);
+          pipelinesBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder addDataNodeInfo(
-          int index, proto.ProtosHDFS.DataNodeInfo value) {
-        if (dataNodeInfoBuilder_ == null) {
+      public Builder addPipelines(
+          int index, proto.ProtosHDFS.Pipeline value) {
+        if (pipelinesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.add(index, value);
+          ensurePipelinesIsMutable();
+          pipelines_.add(index, value);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.addMessage(index, value);
+          pipelinesBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder addDataNodeInfo(
-          proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
-        if (dataNodeInfoBuilder_ == null) {
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.add(builderForValue.build());
+      public Builder addPipelines(
+          proto.ProtosHDFS.Pipeline.Builder builderForValue) {
+        if (pipelinesBuilder_ == null) {
+          ensurePipelinesIsMutable();
+          pipelines_.add(builderForValue.build());
           onChanged();
         } else {
-          dataNodeInfoBuilder_.addMessage(builderForValue.build());
+          pipelinesBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder addDataNodeInfo(
-          int index, proto.ProtosHDFS.DataNodeInfo.Builder builderForValue) {
-        if (dataNodeInfoBuilder_ == null) {
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.add(index, builderForValue.build());
+      public Builder addPipelines(
+          int index, proto.ProtosHDFS.Pipeline.Builder builderForValue) {
+        if (pipelinesBuilder_ == null) {
+          ensurePipelinesIsMutable();
+          pipelines_.add(index, builderForValue.build());
           onChanged();
         } else {
-          dataNodeInfoBuilder_.addMessage(index, builderForValue.build());
+          pipelinesBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder addAllDataNodeInfo(
-          java.lang.Iterable<? extends proto.ProtosHDFS.DataNodeInfo> values) {
-        if (dataNodeInfoBuilder_ == null) {
-          ensureDataNodeInfoIsMutable();
+      public Builder addAllPipelines(
+          java.lang.Iterable<? extends proto.ProtosHDFS.Pipeline> values) {
+        if (pipelinesBuilder_ == null) {
+          ensurePipelinesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, dataNodeInfo_);
+              values, pipelines_);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.addAllMessages(values);
+          pipelinesBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder clearDataNodeInfo() {
-        if (dataNodeInfoBuilder_ == null) {
-          dataNodeInfo_ = java.util.Collections.emptyList();
+      public Builder clearPipelines() {
+        if (pipelinesBuilder_ == null) {
+          pipelines_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.clear();
+          pipelinesBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public Builder removeDataNodeInfo(int index) {
-        if (dataNodeInfoBuilder_ == null) {
-          ensureDataNodeInfoIsMutable();
-          dataNodeInfo_.remove(index);
+      public Builder removePipelines(int index) {
+        if (pipelinesBuilder_ == null) {
+          ensurePipelinesIsMutable();
+          pipelines_.remove(index);
           onChanged();
         } else {
-          dataNodeInfoBuilder_.remove(index);
+          pipelinesBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public proto.ProtosHDFS.DataNodeInfo.Builder getDataNodeInfoBuilder(
+      public proto.ProtosHDFS.Pipeline.Builder getPipelinesBuilder(
           int index) {
-        return getDataNodeInfoFieldBuilder().getBuilder(index);
+        return getPipelinesFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public proto.ProtosHDFS.DataNodeInfoOrBuilder getDataNodeInfoOrBuilder(
+      public proto.ProtosHDFS.PipelineOrBuilder getPipelinesOrBuilder(
           int index) {
-        if (dataNodeInfoBuilder_ == null) {
-          return dataNodeInfo_.get(index);  } else {
-          return dataNodeInfoBuilder_.getMessageOrBuilder(index);
+        if (pipelinesBuilder_ == null) {
+          return pipelines_.get(index);  } else {
+          return pipelinesBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public java.util.List<? extends proto.ProtosHDFS.DataNodeInfoOrBuilder> 
-           getDataNodeInfoOrBuilderList() {
-        if (dataNodeInfoBuilder_ != null) {
-          return dataNodeInfoBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends proto.ProtosHDFS.PipelineOrBuilder> 
+           getPipelinesOrBuilderList() {
+        if (pipelinesBuilder_ != null) {
+          return pipelinesBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(dataNodeInfo_);
+          return java.util.Collections.unmodifiableList(pipelines_);
         }
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public proto.ProtosHDFS.DataNodeInfo.Builder addDataNodeInfoBuilder() {
-        return getDataNodeInfoFieldBuilder().addBuilder(
-            proto.ProtosHDFS.DataNodeInfo.getDefaultInstance());
+      public proto.ProtosHDFS.Pipeline.Builder addPipelinesBuilder() {
+        return getPipelinesFieldBuilder().addBuilder(
+            proto.ProtosHDFS.Pipeline.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public proto.ProtosHDFS.DataNodeInfo.Builder addDataNodeInfoBuilder(
+      public proto.ProtosHDFS.Pipeline.Builder addPipelinesBuilder(
           int index) {
-        return getDataNodeInfoFieldBuilder().addBuilder(
-            index, proto.ProtosHDFS.DataNodeInfo.getDefaultInstance());
+        return getPipelinesFieldBuilder().addBuilder(
+            index, proto.ProtosHDFS.Pipeline.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.DataNodeInfo dataNodeInfo = 5;</code>
+       * <code>repeated .proto.Pipeline pipelines = 5;</code>
        */
-      public java.util.List<proto.ProtosHDFS.DataNodeInfo.Builder> 
-           getDataNodeInfoBuilderList() {
-        return getDataNodeInfoFieldBuilder().getBuilderList();
+      public java.util.List<proto.ProtosHDFS.Pipeline.Builder> 
+           getPipelinesBuilderList() {
+        return getPipelinesFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder> 
-          getDataNodeInfoFieldBuilder() {
-        if (dataNodeInfoBuilder_ == null) {
-          dataNodeInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              proto.ProtosHDFS.DataNodeInfo, proto.ProtosHDFS.DataNodeInfo.Builder, proto.ProtosHDFS.DataNodeInfoOrBuilder>(
-                  dataNodeInfo_,
+          proto.ProtosHDFS.Pipeline, proto.ProtosHDFS.Pipeline.Builder, proto.ProtosHDFS.PipelineOrBuilder> 
+          getPipelinesFieldBuilder() {
+        if (pipelinesBuilder_ == null) {
+          pipelinesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              proto.ProtosHDFS.Pipeline, proto.ProtosHDFS.Pipeline.Builder, proto.ProtosHDFS.PipelineOrBuilder>(
+                  pipelines_,
                   ((bitField0_ & 0x00000010) != 0),
                   getParentForChildren(),
                   isClean());
-          dataNodeInfo_ = null;
+          pipelines_ = null;
         }
-        return dataNodeInfoBuilder_;
+        return pipelinesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -8234,6 +9814,11 @@ public final class ProtosHDFS {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_proto_Request_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_Pipeline_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_Pipeline_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_proto_Response_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8252,30 +9837,34 @@ public final class ProtosHDFS {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nhdfs.proto\022\005proto\"Y\n\rBlockMetaData\022\016\n\006" +
-      "fileId\030\001 \002(\t\022\020\n\010fileName\030\002 \002(\t\022\023\n\013blockN" +
-      "umber\030\003 \002(\005\022\021\n\tisPrimary\030\004 \002(\010\"G\n\005Block\022" +
-      "\'\n\tblockMeta\030\001 \002(\0132\024.proto.BlockMetaData" +
-      "\022\025\n\rblockContents\030\002 \002(\t\"s\n\014DataNodeInfo\022" +
-      "\022\n\ndataNodeId\030\001 \002(\t\022\021\n\tipAddress\030\002 \002(\t\022\022" +
-      "\n\nportNumber\030\003 \002(\005\022(\n\nblockMetas\030\004 \003(\0132\024" +
-      ".proto.BlockMetaData\"}\n\014FileMetadata\022\016\n\006" +
-      "fileId\030\001 \002(\t\022\020\n\010fileName\030\002 \002(\t\022\020\n\010fileSi" +
-      "ze\030\003 \002(\005\022\027\n\017parentDirectory\030\004 \002(\t\022 \n\npar" +
-      "titions\030\005 \003(\0132\014.proto.Block\"\305\001\n\007Request\022" +
-      "\021\n\trequestId\030\001 \002(\t\022/\n\013requestType\030\002 \002(\0162" +
-      "\032.proto.Request.RequestType\022\033\n\005block\030\003 \001" +
-      "(\0132\014.proto.Block\"Y\n\013RequestType\022\010\n\004OPEN\020" +
-      "\000\022\t\n\005CLOSE\020\001\022\010\n\004LIST\020\002\022\010\n\004READ\020\003\022\t\n\005WRIT" +
-      "E\020\004\022\n\n\006UPDATE\020\005\022\n\n\006DELETE\020\006\"\332\001\n\010Response" +
-      "\022\022\n\nresponseId\030\001 \002(\t\0222\n\014responseType\030\002 \002" +
-      "(\0162\034.proto.Response.ResponseType\022\024\n\014erro" +
-      "rMessage\030\003 \001(\t\022\033\n\005block\030\004 \001(\0132\014.proto.Bl" +
-      "ock\022)\n\014dataNodeInfo\030\005 \003(\0132\023.proto.DataNo" +
-      "deInfo\"(\n\014ResponseType\022\013\n\007SUCCESS\020\000\022\013\n\007F" +
-      "AILURE\020\001\"^\n\tHeartbeat\022\023\n\013heartbeatId\030\001 \002" +
-      "(\t\022\021\n\ttimestamp\030\002 \002(\003\022)\n\014dataNodeInfo\030\003 " +
-      "\002(\0132\023.proto.DataNodeInfoB\014B\nProtosHDFS"
+      "\n\nhdfs.proto\022\005proto\"\252\001\n\rBlockMetaData\022\017\n" +
+      "\007blockId\030\001 \002(\t\022\016\n\006fileId\030\002 \002(\t\022\020\n\010fileNa" +
+      "me\030\003 \002(\t\022\023\n\013blockNumber\030\004 \002(\005\022\026\n\016ordRepl" +
+      "ication\030\005 \002(\005\022\022\n\ndataNodeId\030\006 \002(\t\022\021\n\tipA" +
+      "ddress\030\007 \002(\t\022\022\n\nportNumber\030\010 \002(\005\"G\n\005Bloc" +
+      "k\022\'\n\tblockMeta\030\001 \002(\0132\024.proto.BlockMetaDa" +
+      "ta\022\025\n\rblockContents\030\002 \002(\t\"8\n\014DataNodeInf" +
+      "o\022(\n\nblockMetas\030\004 \003(\0132\024.proto.BlockMetaD" +
+      "ata\"}\n\014FileMetadata\022\016\n\006fileId\030\001 \002(\t\022\020\n\010f" +
+      "ileName\030\002 \002(\t\022\020\n\010fileSize\030\003 \002(\005\022\027\n\017paren" +
+      "tDirectory\030\004 \002(\t\022 \n\npartitions\030\005 \003(\0132\014.p" +
+      "roto.Block\"\224\002\n\007Request\022\021\n\trequestId\030\001 \002(" +
+      "\t\022/\n\013requestType\030\002 \002(\0162\032.proto.Request.R" +
+      "equestType\022%\n\010fileMeta\030\003 \001(\0132\023.proto.Fil" +
+      "eMetadata\022\033\n\005block\030\004 \001(\0132\014.proto.Block\022&" +
+      "\n\tdataNodes\030\005 \003(\0132\023.proto.DataNodeInfo\"Y" +
+      "\n\013RequestType\022\010\n\004OPEN\020\000\022\t\n\005CLOSE\020\001\022\010\n\004LI" +
+      "ST\020\002\022\010\n\004READ\020\003\022\t\n\005WRITE\020\004\022\n\n\006UPDATE\020\005\022\n\n" +
+      "\006DELETE\020\006\"\036\n\010Pipeline\022\022\n\ndataNodeId\030\001 \003(" +
+      "\t\"\323\001\n\010Response\022\022\n\nresponseId\030\001 \002(\t\0222\n\014re" +
+      "sponseType\030\002 \002(\0162\034.proto.Response.Respon" +
+      "seType\022\024\n\014errorMessage\030\003 \001(\t\022\033\n\005block\030\004 " +
+      "\003(\0132\014.proto.Block\022\"\n\tpipelines\030\005 \003(\0132\017.p" +
+      "roto.Pipeline\"(\n\014ResponseType\022\013\n\007SUCCESS" +
+      "\020\000\022\013\n\007FAILURE\020\001\"^\n\tHeartbeat\022\023\n\013heartbea" +
+      "tId\030\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\003\022)\n\014dataNode" +
+      "Info\030\003 \002(\0132\023.proto.DataNodeInfoB\014B\nProto" +
+      "sHDFS"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8286,7 +9875,7 @@ public final class ProtosHDFS {
     internal_static_proto_BlockMetaData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_BlockMetaData_descriptor,
-        new java.lang.String[] { "FileId", "FileName", "BlockNumber", "IsPrimary", });
+        new java.lang.String[] { "BlockId", "FileId", "FileName", "BlockNumber", "OrdReplication", "DataNodeId", "IpAddress", "PortNumber", });
     internal_static_proto_Block_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_proto_Block_fieldAccessorTable = new
@@ -8298,7 +9887,7 @@ public final class ProtosHDFS {
     internal_static_proto_DataNodeInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_DataNodeInfo_descriptor,
-        new java.lang.String[] { "DataNodeId", "IpAddress", "PortNumber", "BlockMetas", });
+        new java.lang.String[] { "BlockMetas", });
     internal_static_proto_FileMetadata_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_proto_FileMetadata_fieldAccessorTable = new
@@ -8310,15 +9899,21 @@ public final class ProtosHDFS {
     internal_static_proto_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_Request_descriptor,
-        new java.lang.String[] { "RequestId", "RequestType", "Block", });
-    internal_static_proto_Response_descriptor =
+        new java.lang.String[] { "RequestId", "RequestType", "FileMeta", "Block", "DataNodes", });
+    internal_static_proto_Pipeline_descriptor =
       getDescriptor().getMessageTypes().get(5);
+    internal_static_proto_Pipeline_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_Pipeline_descriptor,
+        new java.lang.String[] { "DataNodeId", });
+    internal_static_proto_Response_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_proto_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_Response_descriptor,
-        new java.lang.String[] { "ResponseId", "ResponseType", "ErrorMessage", "Block", "DataNodeInfo", });
+        new java.lang.String[] { "ResponseId", "ResponseType", "ErrorMessage", "Block", "Pipelines", });
     internal_static_proto_Heartbeat_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_proto_Heartbeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_Heartbeat_descriptor,

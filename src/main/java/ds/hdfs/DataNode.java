@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,9 +29,6 @@ public class DataNode implements DataNodeInterface {
     // Helper method to construct DataNodeInfo Object for you
     public ProtosHDFS.DataNodeInfo getDataNodeInfo(){
         ProtosHDFS.DataNodeInfo.Builder dataInfoBuilder = ProtosHDFS.DataNodeInfo.newBuilder();
-        dataInfoBuilder.setDataNodeId(this.dataNodeId);
-        dataInfoBuilder.setIpAddress(this.ipAddress);
-        dataInfoBuilder.setPortNumber(this.portNumber);
         ArrayList<ProtosHDFS.BlockMetaData> blocksList = new ArrayList<>(this.blockMetas.values());
         dataInfoBuilder.addAllBlockMetas(blocksList);
         ProtosHDFS.DataNodeInfo dataNodeInfo = dataInfoBuilder.build();
@@ -78,10 +76,13 @@ public class DataNode implements DataNodeInterface {
                 ProtosHDFS.Block responseBlock = blockBuilder.build();
                 blockBuilder.clear();
 
+                ArrayList<ProtosHDFS.Block> blockArrayList = new ArrayList<>();
+                blockArrayList.add(responseBlock);
+
                 responseBuilder.setResponseId(requestId);
                 responseBuilder.setResponseType(ProtosHDFS.Response.ResponseType.SUCCESS);
                 responseBuilder.setErrorMessage(errorMessage);
-                responseBuilder.setBlock(responseBlock);
+                responseBuilder.addAllBlock(blockArrayList);
             }
         }else{
             String errorMessage = fileName + " block " + blockNumber + " read fail (block not found)";
@@ -148,21 +149,21 @@ public class DataNode implements DataNodeInterface {
     }
 
     // This method binds the Data Node to the server so the client can access it and use its services (methods)
-    public void bindServer(String dataID, String dataIP, int dataPort){
+    public void bindServer(String dataId, String dataIp, int dataPort){
         try{
             // This is the stub which will be used to remotely invoke methods on another Data Node
             // Initial value of the port is set to 0
             DataNodeInterface dataNodeStub = (DataNodeInterface)UnicastRemoteObject.exportObject(this, 0);
 
             // This sets the IP address of this particular Data Node instance
-            System.setProperty("java.rmi.server.hostname", dataID);
+            System.setProperty("java.rmi.server.hostname", dataIp);
 
             // This gets reference to remote object registry located at the specified port
             Registry registry = LocateRegistry.getRegistry(dataPort);
 
             // This rebinds the Data Node to the remote object registry at the specified port in the previous step
             // Uses the values of id (or 'name') of the Data Node and a Remote which is the stub for this Data node
-            registry.rebind(dataID, dataNodeStub);
+            registry.rebind(dataId, dataNodeStub);
 
             System.out.println("\n Data Node connected to RMI registry \n");
         }catch(Exception e){
@@ -173,14 +174,14 @@ public class DataNode implements DataNodeInterface {
 
     // This method finds the Name Node and returns a stub (Remote to the Name Node) with which the Data Node
     // could use to invoke functions on the Name Node
-    public NameNodeInterface getNNStub(String nameID, String nameIP, int namePort){
+    public NameNodeInterface getNNStub(String nameId, String nameIp, int namePort){
         while(true){
             try{
                 // This gets the remote object registry at the specified port
-                Registry registry = LocateRegistry.getRegistry(nameIP, namePort);
+                Registry registry = LocateRegistry.getRegistry(nameIp, namePort);
 
                 // This gets the Remote to the Name Node using the ID of the Name Node
-                NameNodeInterface nameNodeStub = (NameNodeInterface)registry.lookup(nameID);
+                NameNodeInterface nameNodeStub = (NameNodeInterface)registry.lookup(nameId);
                 System.out.println("\n Name Node Found! \n");
                 return nameNodeStub;
             }catch(Exception e){

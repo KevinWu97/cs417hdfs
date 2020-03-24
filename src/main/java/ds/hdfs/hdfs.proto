@@ -6,15 +6,23 @@ package proto;
 option java_outer_classname = "ProtosHDFS";
 
 // Each BlockMetaData contains information such as:
-// 1. The name of the file the block is associated with
-// 2. The 'order' of the block in the file (1st block, 2nd block, 3rd block, etc)
-// 3. The contents of the block
-// 4. The size of the block in bytes
+// 1. The Block ID
+// 2. The File ID
+// 3. Name of File
+// 4. Which block of the file it is
+// 5. Which repetition it is
+// 6. Which Data Node this block is in
+// 7. The IP address of said Data Node
+// 8. Port Number of said DataNode
 message BlockMetaData {
-    required string fileId = 1;
-    required string fileName = 2;
-    required int32 blockNumber = 3;
-    required bool isPrimary = 4;
+    required string blockId = 1;
+    required string fileId = 2;
+    required string fileName = 3;
+    required int32 blockNumber = 4;
+    required int32 ordReplication = 5;
+    required string dataNodeId = 6;
+    required string ipAddress = 7;
+    required int32 portNumber = 8;
 }
 
 // Each block contains the metadata of the block as well as its contents
@@ -24,16 +32,8 @@ message Block {
     required string blockContents = 2;
 }
 
-// The data node information object holds the following:
-// 1. The ID of the data node in string form (UUID)
-// 2. The IP Address of the data node
-// 3. The Port Number of the data node
-// 4. The Blocks stored on the data node
-
+// DataNodeInfo only contains list of BlockMetaData it holds
 message DataNodeInfo {
-    required string dataNodeId = 1;
-    required string ipAddress = 2;
-    required int32 portNumber = 3;
     repeated BlockMetaData blockMetas = 4;
 }
 
@@ -71,7 +71,9 @@ message Request {
         DELETE = 6;
     }
     required RequestType requestType = 2;
-    optional Block block = 3;
+    optional FileMetadata fileMeta = 3;
+    optional Block block = 4;
+    repeated DataNodeInfo dataNodes = 5;
 }
 
 // Each Response contains a Response ID
@@ -81,6 +83,10 @@ message Request {
 // For CRUD operations, dataNodeInfo contains information on the data nodes
 // such as ip address, socket that the client should write to
 
+message Pipeline {
+    repeated string dataNodeId = 1;
+}
+
 message Response {
     required string responseId = 1;
     enum ResponseType {
@@ -89,8 +95,8 @@ message Response {
     }
     required ResponseType responseType = 2;
     optional string errorMessage = 3;
-    optional Block block = 4;
-    repeated DataNodeInfo dataNodeInfo = 5;
+    repeated Block block = 4;
+    repeated Pipeline pipelines = 5;
 }
 
 // Heartbeat is a message sent from the data node to the adfads
